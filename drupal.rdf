@@ -1,0 +1,568 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY drupal "http://www.semanticweb.org/ontologies/2010/10/drupal.owl#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.w3.org/2002/07/owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:drupal="http://www.semanticweb.org/ontologies/2010/10/drupal.owl#">
+    <Ontology rdf:about="http://www.semanticweb.org/ontologies/2010/10/drupal.owl">
+        <rdfs:comment rdf:datatype="&xsd;string">Josef Dabernig
+e0927232@student.tuwien.ac.at
+
+
+# it contains a well-defined hierarchy of domain entities
+
+see classes and their instances
+
+#it contains a number of object and data properties
+
+complex object properties hierarchy exists
+data properties for description and hours exist
+
+#at least one object property which is inverse functional
+
+isDifficultyOf: only one difficulty of Hard and Easy can be assigned for each Installable
+
+#at least one object property that has an inverse property
+
+almost any object property has an inverse in this ontology.
+example: isUsedBy, usesInstallable
+
+#at least two entities with a quantifier restriction of type Existential or Universal
+#at least one automated classification for one of the &quot;Defined Classes&quot; of previous step
+#at least one automated classification for your domain instances.
+
+PeppisGreatModule is a Module
+PeppisGreatModule hasType DevelopmentType
+
+DevelopmentModule: Module and (hasType DevelopmentType)
+
+&gt;&gt; PeppisGreatModule is a DevelopmentModule
+
+++
+
+LuiseThaDevelopa is a Person
+LuiseThaDevelopa uses PeppisGreatModule
+
+Developer: Person and (usesModule some DevelopmentModule)
+
+&gt;&gt; LuiseThaDevelopa is a Developer</rdfs:comment>
+    </Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <AnnotationProperty rdf:about="&rdfs;comment"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#createdModule -->
+
+    <ObjectProperty rdf:about="&drupal;createdModule">
+        <rdfs:range rdf:resource="&drupal;Module"/>
+        <rdfs:domain rdf:resource="&drupal;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&drupal;hasRelationTo"/>
+        <inverseOf rdf:resource="&drupal;isCreatedBy"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#hasDifficulty -->
+
+    <ObjectProperty rdf:about="&drupal;hasDifficulty">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:range rdf:resource="&drupal;Difficulty"/>
+        <rdfs:domain rdf:resource="&drupal;Installable"/>
+        <rdfs:subPropertyOf rdf:resource="&drupal;hasRelationTo"/>
+        <inverseOf rdf:resource="&drupal;isDifficultyOf"/>
+        <propertyDisjointWith rdf:resource="&drupal;isDifficultyOf"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#hasModuleType -->
+
+    <ObjectProperty rdf:about="&drupal;hasModuleType">
+        <rdfs:domain rdf:resource="&drupal;Module"/>
+        <rdfs:range rdf:resource="&drupal;Type"/>
+        <rdfs:subPropertyOf rdf:resource="&drupal;hasType"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#hasRelationTo -->
+
+    <ObjectProperty rdf:about="&drupal;hasRelationTo">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+        <inverseOf rdf:resource="&drupal;isRelatedBy"/>
+        <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#hasType -->
+
+    <ObjectProperty rdf:about="&drupal;hasType">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#FunctionalProperty"/>
+        <rdfs:domain rdf:resource="&drupal;Installable"/>
+        <rdfs:range rdf:resource="&drupal;Type"/>
+        <rdfs:subPropertyOf rdf:resource="&drupal;hasRelationTo"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#isCreatedBy -->
+
+    <ObjectProperty rdf:about="&drupal;isCreatedBy">
+        <rdfs:domain rdf:resource="&drupal;Installable"/>
+        <rdfs:range rdf:resource="&drupal;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&drupal;isRelatedBy"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#isDifficultyOf -->
+
+    <ObjectProperty rdf:about="&drupal;isDifficultyOf">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+        <rdfs:domain rdf:resource="&drupal;Difficulty"/>
+        <rdfs:range rdf:resource="&drupal;Installable"/>
+        <rdfs:subPropertyOf rdf:resource="&drupal;isRelatedBy"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#isRelatedBy -->
+
+    <ObjectProperty rdf:about="&drupal;isRelatedBy">
+        <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#isTypeOf -->
+
+    <ObjectProperty rdf:about="&drupal;isTypeOf">
+        <rdfs:range rdf:resource="&drupal;Installable"/>
+        <rdfs:domain rdf:resource="&drupal;Type"/>
+        <inverseOf rdf:resource="&drupal;hasType"/>
+        <rdfs:subPropertyOf rdf:resource="&drupal;isRelatedBy"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#isUsedBy -->
+
+    <ObjectProperty rdf:about="&drupal;isUsedBy">
+        <rdfs:domain rdf:resource="&drupal;Installable"/>
+        <rdfs:range rdf:resource="&drupal;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&drupal;isRelatedBy"/>
+        <inverseOf rdf:resource="&drupal;usesInstallable"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#usesInstallable -->
+
+    <ObjectProperty rdf:about="&drupal;usesInstallable">
+        <rdfs:range rdf:resource="&drupal;Module"/>
+        <rdfs:domain rdf:resource="&drupal;Person"/>
+        <rdfs:subPropertyOf rdf:resource="&drupal;hasRelationTo"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#topObjectProperty -->
+
+    <ObjectProperty rdf:about="http://www.w3.org/2002/07/owl#topObjectProperty"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#hasDescription -->
+
+    <DatatypeProperty rdf:about="&drupal;hasDescription">
+        <rdfs:range rdf:resource="&xsd;string"/>
+        <rdfs:subPropertyOf rdf:resource="http://www.w3.org/2002/07/owl#topDataProperty"/>
+        <rdfs:domain>
+            <Restriction>
+                <onProperty rdf:resource="&drupal;hasDescription"/>
+                <someValuesFrom rdf:resource="&xsd;string"/>
+            </Restriction>
+        </rdfs:domain>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#topDataProperty -->
+
+    <DatatypeProperty rdf:about="http://www.w3.org/2002/07/owl#topDataProperty"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#AdministrationType -->
+
+    <Class rdf:about="&drupal;AdministrationType">
+        <rdfs:subClassOf rdf:resource="&drupal;Type"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#Concept -->
+
+    <Class rdf:about="&drupal;Concept"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#ContentType -->
+
+    <Class rdf:about="&drupal;ContentType">
+        <rdfs:subClassOf rdf:resource="&drupal;Type"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#Developer -->
+
+    <Class rdf:about="&drupal;Developer">
+        <equivalentClass>
+            <Class>
+                <intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&drupal;Person"/>
+                    <Restriction>
+                        <onProperty rdf:resource="&drupal;createdModule"/>
+                        <someValuesFrom rdf:resource="&drupal;Module"/>
+                    </Restriction>
+                </intersectionOf>
+            </Class>
+        </equivalentClass>
+        <equivalentClass>
+            <Class>
+                <intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&drupal;Person"/>
+                    <Restriction>
+                        <onProperty rdf:resource="&drupal;usesInstallable"/>
+                        <someValuesFrom rdf:resource="&drupal;DevelopmentModule"/>
+                    </Restriction>
+                </intersectionOf>
+            </Class>
+        </equivalentClass>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#DevelopmentModule -->
+
+    <Class rdf:about="&drupal;DevelopmentModule">
+        <equivalentClass>
+            <Class>
+                <intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&drupal;Module"/>
+                    <Restriction>
+                        <onProperty rdf:resource="&drupal;hasType"/>
+                        <someValuesFrom rdf:resource="&drupal;DevelopmentType"/>
+                    </Restriction>
+                </intersectionOf>
+            </Class>
+        </equivalentClass>
+        <rdfs:subClassOf rdf:resource="&drupal;Module"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#DevelopmentType -->
+
+    <Class rdf:about="&drupal;DevelopmentType">
+        <rdfs:subClassOf rdf:resource="&drupal;Type"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#Difficulty -->
+
+    <Class rdf:about="&drupal;Difficulty">
+        <rdfs:subClassOf rdf:resource="&drupal;Concept"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#Drupaller -->
+
+    <Class rdf:about="&drupal;Drupaller">
+        <equivalentClass>
+            <Class>
+                <unionOf rdf:parseType="Collection">
+                    <Restriction>
+                        <onProperty rdf:resource="&drupal;createdModule"/>
+                        <someValuesFrom rdf:resource="&drupal;Module"/>
+                    </Restriction>
+                    <Restriction>
+                        <onProperty rdf:resource="&drupal;usesInstallable"/>
+                        <someValuesFrom rdf:resource="&drupal;Module"/>
+                    </Restriction>
+                </unionOf>
+            </Class>
+        </equivalentClass>
+        <rdfs:subClassOf rdf:resource="&drupal;Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#Easy -->
+
+    <Class rdf:about="&drupal;Easy">
+        <rdfs:subClassOf rdf:resource="&drupal;Difficulty"/>
+        <disjointWith rdf:resource="&drupal;Hard"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#Freak -->
+
+    <Class rdf:about="&drupal;Freak">
+        <rdfs:subClassOf rdf:resource="&drupal;Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#Hard -->
+
+    <Class rdf:about="&drupal;Hard">
+        <rdfs:subClassOf rdf:resource="&drupal;Difficulty"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#Installable -->
+
+    <Class rdf:about="&drupal;Installable">
+        <rdfs:subClassOf rdf:resource="&drupal;Concept"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#Module -->
+
+    <Class rdf:about="&drupal;Module">
+        <rdfs:subClassOf rdf:resource="&drupal;Installable"/>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&drupal;hasDifficulty"/>
+                <someValuesFrom rdf:resource="&drupal;Difficulty"/>
+            </Restriction>
+        </rdfs:subClassOf>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#Person -->
+
+    <Class rdf:about="&drupal;Person">
+        <rdfs:subClassOf rdf:resource="&drupal;Concept"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#Theme -->
+
+    <Class rdf:about="&drupal;Theme">
+        <rdfs:subClassOf rdf:resource="&drupal;Installable"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#Type -->
+
+    <Class rdf:about="&drupal;Type">
+        <rdfs:subClassOf rdf:resource="&drupal;Concept"/>
+    </Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <Class rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#Administration -->
+
+    <NamedIndividual rdf:about="&drupal;Administration">
+        <rdf:type rdf:resource="&drupal;AdministrationType"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#Content -->
+
+    <NamedIndividual rdf:about="&drupal;Content">
+        <rdf:type rdf:resource="&drupal;ContentType"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#Development -->
+
+    <NamedIndividual rdf:about="&drupal;Development">
+        <rdf:type rdf:resource="&drupal;DevelopmentType"/>
+        <drupal:hasDescription rdf:datatype="&xsd;string">The Development type description goes here</drupal:hasDescription>
+        <drupal:hasDescription rdf:datatype="&xsd;string">entwicklungstypbeschreibung. ...</drupal:hasDescription>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#EasyDifficulty -->
+
+    <NamedIndividual rdf:about="&drupal;EasyDifficulty">
+        <rdf:type rdf:resource="&drupal;Easy"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#HardDifficulty -->
+
+    <NamedIndividual rdf:about="&drupal;HardDifficulty">
+        <rdf:type rdf:resource="&drupal;Hard"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#LuiseThaDevelopa -->
+
+    <NamedIndividual rdf:about="&drupal;LuiseThaDevelopa">
+        <rdf:type rdf:resource="&drupal;Person"/>
+        <drupal:usesInstallable rdf:resource="&drupal;PeppisGreatModule"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#MyTheme -->
+
+    <NamedIndividual rdf:about="&drupal;MyTheme">
+        <rdf:type rdf:resource="&drupal;Theme"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#PeppiThaProgramma -->
+
+    <NamedIndividual rdf:about="&drupal;PeppiThaProgramma">
+        <rdf:type rdf:resource="&drupal;Person"/>
+        <drupal:createdModule rdf:resource="&drupal;PeppisGreatModule"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#PeppisGreatModule -->
+
+    <NamedIndividual rdf:about="&drupal;PeppisGreatModule">
+        <rdf:type rdf:resource="&drupal;Module"/>
+        <drupal:hasType rdf:resource="&drupal;Development"/>
+        <drupal:hasDifficulty rdf:resource="&drupal;HardDifficulty"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#SomeOne -->
+
+    <NamedIndividual rdf:about="&drupal;SomeOne">
+        <rdf:type rdf:resource="&drupal;Person"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/drupal.owl#TheUser -->
+
+    <NamedIndividual rdf:about="&drupal;TheUser">
+        <rdf:type rdf:resource="&drupal;Person"/>
+        <drupal:usesInstallable rdf:resource="&drupal;MyTheme"/>
+    </NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+        <members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&drupal;AdministrationType"/>
+            <rdf:Description rdf:about="&drupal;ContentType"/>
+            <rdf:Description rdf:about="&drupal;DevelopmentType"/>
+        </members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.1.0.1602) http://owlapi.sourceforge.net -->
+
