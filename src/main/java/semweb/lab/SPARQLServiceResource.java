@@ -1,7 +1,11 @@
 package semweb.lab;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
 import javax.jws.WebService;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 
@@ -9,7 +13,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.cxf.jaxrs.ext.MessageContext;
 
-@Path("/messages")
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.Resource;
+
+@Path("/sparql")
 @WebService(endpointInterface = "at.gackle.core.ws.interfaces.IMessageService", serviceName = "MessageService")
 public class SPARQLServiceResource implements SPARQLService {
 
@@ -19,11 +28,44 @@ public class SPARQLServiceResource implements SPARQLService {
 	@Context
 	MessageContext messageContext;
 
+  private Model model;
+
+  public SPARQLServiceResource(Model model) {
+    this.model = model;
+  }
+
   @Override
   @GET
   public String sayHello() {
     logger.debug("saying hello");
     return "hallo";
+  }
+  
+  @Override
+  @POST
+  public String insertTriple(SPARQLInsertObject object) {
+    //this.model = ModelFactory.createDefaultModel();
+
+    Resource resource = this.model.getResource(object.getResource());
+    Property property = this.model.getProperty(object.getProperty());
+    if(object.isLiteral) {
+      resource.addLiteral(property, object.getObject());
+    }
+    else {
+      resource.addProperty(property, (String)object.getObject());
+    }
+    
+    //TODO exceptions
+    
+    FileOutputStream file;
+    try {
+      file = new FileOutputStream("test.owl");
+      this.model.write(file);
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    
+    return resource.getURI();
   }
 
 	/*

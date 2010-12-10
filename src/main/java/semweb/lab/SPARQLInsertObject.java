@@ -10,7 +10,8 @@ public class SPARQLInsertObject {
   
   protected String resource;
   protected String property;
-  protected String object;
+  protected Object object;
+  protected boolean isLiteral;
   
   public String getResource() {
     return resource;
@@ -24,12 +25,20 @@ public class SPARQLInsertObject {
   public void setProperty(String property) {
     this.property = property;
   }
-  public String getObject() {
+  public Object getObject() {
     return object;
   }
-  public void setObject(String object) {
+  public void setObject(Object object) {
     this.object = object;
   }
+  public boolean isLiteral() {
+    return isLiteral;
+  }
+  public void setLiteral(boolean isLiteral) {
+    this.isLiteral = isLiteral;
+  }
+  
+  
   
   
 }
