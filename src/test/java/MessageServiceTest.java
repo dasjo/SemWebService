@@ -47,7 +47,7 @@ public class MessageServiceTest {
 
   @Test
   public void testQuery() {
-    Model model = FileManager.get().("file:drupal.rdf");
+    Model model = FileManager.get().loadModel("file:drupal.rdf");
     
     String queryString = "" +
     		"PREFIX drupal:<http://www.semanticweb.org/ontologies/2010/10/drupal.owl#> " +
@@ -65,8 +65,6 @@ public class MessageServiceTest {
 
     // Important – free up resources used running the query
     qe.close();
-    
-    model.
 
   }
 
