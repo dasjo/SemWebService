@@ -8,22 +8,30 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SPARQLInsertObject {
   
-  protected String resource;
-  protected String property;
+  protected String resourceURI;
+  protected String propertyNameSpace;
+  protected String propertyLocalName;
   protected Object object;
   protected boolean isLiteral;
   
-  public String getResource() {
-    return resource;
+  
+  public String getResourceURI() {
+    return resourceURI;
   }
-  public void setResource(String resource) {
-    this.resource = resource;
+  public void setResourceURI(String resourceURI) {
+    this.resourceURI = resourceURI;
   }
-  public String getProperty() {
-    return property;
+  public String getPropertyNameSpace() {
+    return propertyNameSpace;
   }
-  public void setProperty(String property) {
-    this.property = property;
+  public void setPropertyNameSpace(String propertyNameSpace) {
+    this.propertyNameSpace = propertyNameSpace;
+  }
+  public String getPropertyLocalName() {
+    return propertyLocalName;
+  }
+  public void setPropertyLocalName(String propertyLocalName) {
+    this.propertyLocalName = propertyLocalName;
   }
   public Object getObject() {
     return object;

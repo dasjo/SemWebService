@@ -12,11 +12,16 @@ import javax.ws.rs.core.Context;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.cxf.jaxrs.ext.MessageContext;
+import org.junit.Assert;
 
+import com.hp.hpl.jena.graph.Node;
+import com.hp.hpl.jena.rdf.model.InfModel;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.reasoner.ValidityReport;
 
 @Path("/sparql")
 @WebService(endpointInterface = "at.gackle.core.ws.interfaces.IMessageService", serviceName = "MessageService")
@@ -46,16 +51,24 @@ public class SPARQLServiceResource implements SPARQLService {
   public String insertTriple(SPARQLInsertObject object) {
     //this.model = ModelFactory.createDefaultModel();
 
-    Resource resource = this.model.getResource(object.getResource());
-    Property property = this.model.getProperty(object.getProperty());
+    Resource resource = this.model.createResource(object.getResourceURI());
+    Property property = this.model.createProperty(object.getPropertyNameSpace(), object.getPropertyLocalName());
     if(object.isLiteral) {
       resource.addLiteral(property, object.getObject());
     }
     else {
-      resource.addProperty(property, (String)object.getObject());
+      //resource.addProperty(property, (String)object.getObject());
+      RDFNode rdfNode = model.getRDFNode(Node.createURI((String) object.getObject()));
+      resource.addProperty(property, rdfNode);
     }
-    
-    //TODO exceptions
+
+    return resource.getURI();
+  }
+  
+  @Override
+  @GET
+  public boolean writeOntologyToFile() {
+    logger.debug("writing ontology to file");
     
     FileOutputStream file;
     try {
@@ -63,9 +76,10 @@ public class SPARQLServiceResource implements SPARQLService {
       this.model.write(file);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
+      return false;
     }
+    return true;
     
-    return resource.getURI();
   }
 
 	/*

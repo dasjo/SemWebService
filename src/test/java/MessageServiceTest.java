@@ -74,27 +74,31 @@ public class MessageServiceTest {
     SPARQLInsertObject object = new SPARQLInsertObject();
 
     // Property insert
-    object.setResource("http://www.semanticweb.org/ontologies/2010/10/drupal.owl#PeppiThaProgramma");
-    object.setProperty("http://www.semanticweb.org/ontologies/2010/10/drupal.owl#usesInstallable");
+    object.setResourceURI("http://www.semanticweb.org/ontologies/2010/10/drupal.owl#PeppiThaProgramma");
+    object.setPropertyNameSpace("http://www.semanticweb.org/ontologies/2010/10/drupal.owl#usesInstallable");
+    object.setPropertyLocalName("usesInstallable");
+
     object.setObject("http://www.semanticweb.org/ontologies/2010/10/drupal.owl#PeppisGreatModule");
     object.setLiteral(false);
 
     // Resource insert
-    object.setResource("http://www.semanticweb.org/ontologies/2010/10/drupal.owl#MattlThaOberwicht");
-    object.setProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+    object.setResourceURI("http://www.semanticweb.org/ontologies/2010/10/drupal.owl#MattlThaOberwicht");
+    object.setPropertyNameSpace("http://www.w3.org/1999/02/22-rdf-syntax-ns");
+    object.setPropertyLocalName("type");
     object.setObject("http://www.semanticweb.org/ontologies/2010/10/drupal.owl#Person");
     object.setLiteral(false);
 
     // Literal insert
-    object.setResource("http://www.semanticweb.org/ontologies/2010/10/drupal.owl#MattlThaOberwicht");
-    object.setProperty("http://www.semanticweb.org/ontologies/2010/10/drupal.owl#hasDescription");
+    object.setResourceURI("http://www.semanticweb.org/ontologies/2010/10/drupal.owl#MattlThaOberwicht");
+    object.setPropertyNameSpace("http://www.semanticweb.org/ontologies/2010/10/drupal.owl");
+    object.setPropertyLocalName("hasDescription");
     object.setObject("schubidu");
     object.setLiteral(true);
 
     Model model = FileManager.get().loadModel("file:drupal.rdf");
 
-    Resource resource = model.getResource(object.getResource());
-    Property property = model.getProperty(object.getProperty());
+    Resource resource = model.getResource(object.getResourceURI());
+    Property property = model.createProperty(object.getPropertyNameSpace(), object.getPropertyLocalName());
 
     if (object.isLiteral()) {
       resource.addLiteral(property, object.getObject());
