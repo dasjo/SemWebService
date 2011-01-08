@@ -1,10 +1,12 @@
 package semweb.lab;
 
+import javax.ws.rs.core.Response;
+
 public interface SPARQLService {
 
-  String sayHello();
-
-  String insertTriple(SPARQLInsertObject object);
+  Response insert(Triple object);
+  
+  Response query(String sparqlQuery);
 
   boolean writeOntologyToFile();
 }
