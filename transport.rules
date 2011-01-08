@@ -1,0 +1,8 @@
+@prefix rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+@prefix ut: http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#
+
+[cheapTicket: (?T rdf:type ut:CheapTicket)
+              <-
+              (?T rdf:type ut:Ticket)
+              (?T ut:hasPrize ?P)
+              lessThan(?P,20)]

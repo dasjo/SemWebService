@@ -55,7 +55,8 @@ public class SemWebServiceResource implements SemWebService {
 			RDFNode rdfNode = infModel.getRDFNode(node);
 			resource.addProperty(property, rdfNode);
 		}
-
+		
+		infModel.rebind();
 		ValidityReport validityReport = infModel.validate();
 		if (!validityReport.isValid()) {
 			StringBuffer message = new StringBuffer(

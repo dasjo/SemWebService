@@ -83,7 +83,6 @@
         <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <hasValidityInDays rdf:datatype="&xsd;nonNegativeInteger">0</hasValidityInDays>
         <hasPrize rdf:datatype="&xsd;positiveInteger">2</hasPrize>
-        <isOwnedBy rdf:resource="&UrbanTransport;NikkiLauda"/>
     </owl:Thing>
     
 

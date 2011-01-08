@@ -16,13 +16,21 @@ import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFormatter;
 import com.hp.hpl.jena.rdf.model.InfModel;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.reasoner.Reasoner;
+import com.hp.hpl.jena.reasoner.ReasonerRegistry;
 import com.hp.hpl.jena.reasoner.ValidityReport;
+import com.hp.hpl.jena.util.FileManager;
+import com.hp.hpl.jena.vocabulary.RDF;
 
 public class Spikes {
 
+	private static final String PREFIX = "http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#";
 	private InfModel model;
 
 	@Before
@@ -37,7 +45,7 @@ public class Spikes {
 	}
 
 	@Test
-	public void sparqlQuery_Spike() {
+	public void sparqlQuery_spike() {
 		String queryString = ""
 				+ "PREFIX drupal:<http://www.semanticweb.org/ontologies/2010/10/drupal.owl#> "
 				+ "SELECT ?x ?name "
@@ -58,41 +66,80 @@ public class Spikes {
 	}
 
 	@Test
-	public void createProperty_Spike() {
-		Triple object = new Triple();
+	public void triggerInferenceAfterAdd_spike() {
+		Model schema = FileManager.get().loadModel("file:transport_schema.rdf");
+		Model data = FileManager.get().loadModel("file:transport_data.rdf");
+		Reasoner reasoner = ReasonerRegistry.getOWLReasoner();
+		reasoner = reasoner.bindSchema(schema);
+		InfModel infModel = ModelFactory.createInfModel(reasoner, data);
+
+		Resource resource = infModel.createResource(PREFIX + "18");
+		Statement statement = infModel.createStatement(resource, RDF.type, infModel
+				.getRDFNode(Node.createURI(PREFIX + "Tramway")));
+		infModel.add(statement);
+
+		for (Statement stmt : infModel.getResource(PREFIX + "18").listProperties().toList()) {
+			System.out.println(stmt.getPredicate());
+			System.out.println(stmt.getObject());
+		}
+	}
+
+	@Test
+	public void infModel_spike() {
+		Model schema = FileManager.get().loadModel("file:transport_schema.rdf");
+		Model data = ModelFactory.createDefaultModel();
+
+		Reasoner reasoner = ReasonerRegistry.getOWLReasoner();
+		reasoner = reasoner.bindSchema(schema);
+		InfModel infModel = ModelFactory.createInfModel(reasoner, data);
+
+		Resource resource = data.createResource(PREFIX + "Bim2");
+		Statement statement = data.createStatement(resource, RDF.type, data
+				.getRDFNode(Node.createURI(PREFIX + "Tramway")));
+		infModel.add(statement);
+		Resource bim1 = infModel.getResource(PREFIX + "Bim2");
+		for (Statement stmt : bim1.listProperties().toList()) {
+			System.out.println(stmt.getPredicate());
+			System.out.println(stmt.getObject());
+		}
+	}
+
+	@Test
+	public void createProperty_spike() {
+		Triple triple = new Triple();
 		// Property insert
-		object
+		triple
 				.setSubject("http://www.semanticweb.org/ontologies/2010/10/drupal.owl#PeppiThaProgramma");
-		object
+		triple
 				.setPredicate("http://www.semanticweb.org/ontologies/2010/10/drupal.owl#usesInstallable");
 
-		object
+		triple
 				.setObject("http://www.semanticweb.org/ontologies/2010/10/drupal.owl#PeppisGreatModule");
-		object.setLiteral(false);
+		triple.setLiteral(false);
 
 		// Resource insert
-		object
+		triple
 				.setSubject("http://www.semanticweb.org/ontologies/2010/10/drupal.owl#MattlThaOberwicht");
-		object.setPredicate("http://www.w3.org/1999/02/22-rdf-syntax-ns");
-		object
+		triple.setPredicate("http://www.w3.org/1999/02/22-rdf-syntax-ns");
+		triple
 				.setObject("http://www.semanticweb.org/ontologies/2010/10/drupal.owl#Person");
-		object.setLiteral(false);
+		triple.setLiteral(false);
 
 		// Literal insert
-		object
+		triple
 				.setSubject("http://www.semanticweb.org/ontologies/2010/10/drupal.owl#MattlThaOberwicht");
-		object
+		triple
 				.setPredicate("http://www.semanticweb.org/ontologies/2010/10/drupal.owl");
-		object.setObject("schubidu");
-		object.setLiteral(true);
+		triple.setObject("schubidu");
+		triple.setLiteral(true);
 
-		Resource resource = model.getResource(object.getSubject());
-		Property property = model.createProperty(object.getPredicate());
+		Resource resource = model.getResource(triple.getSubject());
+		Property property = model.createProperty(triple.getPredicate());
 
-		if (object.isLiteral()) {
-			resource.addLiteral(property, object.getObject());
+		if (triple.isLiteral()) {
+			resource.addLiteral(property, triple.getObject());
 		} else {
-			RDFNode rdfNode = model.getRDFNode(Node.createURI((String) object
+			RDFNode rdfNode = model.getRDFNode(Node.createURI((String) triple
 					.getObject()));
 			resource.addProperty(property, rdfNode);
 		}

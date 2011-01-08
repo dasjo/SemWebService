@@ -1,0 +1,692 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY UrbanTransport "http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#" >
+    <!ENTITY UrbanTransport2 "http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#84" >
+    <!ENTITY UrbanTransport3 "http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#15" >
+]>
+
+
+<rdf:RDF xmlns="http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#"
+     xml:base="http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:UrbanTransport2="&UrbanTransport;84"
+     xmlns:UrbanTransport="http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:UrbanTransport3="&UrbanTransport;15"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl">
+        <rdfs:comment rdf:datatype="&xsd;string">The entity BusStation uses the existential quantifier restriction &quot;isVisitedBy some BusLine&quot; and the entity StreetVehicle uses the universal quantifier restriction &quot;hasVehicleType only Street&quot;</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string">The entity StreetVehicle uses automated classification to assign the entity Bus as a subclass of it.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string">The object property hasStopIn is between Line and Station is inverse (inverse property: isVisitedBy)</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string">The object property isOwnerOf between Customer and Ticket is inverse functional (inverse property: isOwnedBy)</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string">The person instance NikiLauda uses automated instance classification since it&#39;s classified as Driver.</rdfs:comment>
+        <rdfs:comment rdf:datatype="&xsd;string">The urban transport ontology that models the public transport system of a bigger city.</rdfs:comment>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&rdfs;comment"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#hasDriver -->
+
+    <owl:ObjectProperty rdf:about="&UrbanTransport;hasDriver">
+        <owl:inverseOf rdf:resource="&UrbanTransport;isDriverOf"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#hasStopIn -->
+
+    <owl:ObjectProperty rdf:about="&UrbanTransport;hasStopIn">
+        <rdfs:domain rdf:resource="&UrbanTransport;Line"/>
+        <rdfs:range rdf:resource="&UrbanTransport;Station"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#hasVehicleType -->
+
+    <owl:ObjectProperty rdf:about="&UrbanTransport;hasVehicleType">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="&UrbanTransport;Vehicle"/>
+        <rdfs:range rdf:resource="&UrbanTransport;VehicleType"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#isAssignedTo -->
+
+    <owl:ObjectProperty rdf:about="&UrbanTransport;isAssignedTo">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="&UrbanTransport;Line"/>
+        <rdfs:domain rdf:resource="&UrbanTransport;Vehicle"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#isDriverOf -->
+
+    <owl:ObjectProperty rdf:about="&UrbanTransport;isDriverOf">
+        <rdfs:domain rdf:resource="&UrbanTransport;Driver"/>
+        <rdfs:range rdf:resource="&UrbanTransport;Vehicle"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#isOwnedBy -->
+
+    <owl:ObjectProperty rdf:about="&UrbanTransport;isOwnedBy">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <rdfs:range rdf:resource="&UrbanTransport;Customer"/>
+        <rdfs:domain rdf:resource="&UrbanTransport;Ticket"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#isOwnerOf -->
+
+    <owl:ObjectProperty rdf:about="&UrbanTransport;isOwnerOf">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdf:type rdf:resource="&owl;InverseFunctionalProperty"/>
+        <owl:inverseOf rdf:resource="&UrbanTransport;isOwnedBy"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#isVisitedBy -->
+
+    <owl:ObjectProperty rdf:about="&UrbanTransport;isVisitedBy">
+        <rdfs:range rdf:resource="&UrbanTransport;Line"/>
+        <rdfs:domain rdf:resource="&UrbanTransport;Station"/>
+        <owl:inverseOf rdf:resource="&UrbanTransport;hasStopIn"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#topObjectProperty -->
+
+    <owl:ObjectProperty rdf:about="&owl;topObjectProperty"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#hasCapacity -->
+
+    <owl:DatatypeProperty rdf:about="&UrbanTransport;hasCapacity">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="&UrbanTransport;Vehicle"/>
+        <rdfs:range rdf:resource="&xsd;positiveInteger"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#hasInterval -->
+
+    <owl:DatatypeProperty rdf:about="&UrbanTransport;hasInterval">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="&UrbanTransport;Line"/>
+        <rdfs:range rdf:resource="&xsd;positiveInteger"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#hasPrize -->
+
+    <owl:DatatypeProperty rdf:about="&UrbanTransport;hasPrize">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="&UrbanTransport;Ticket"/>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#hasValidityInDays -->
+
+    <owl:DatatypeProperty rdf:about="&UrbanTransport;hasValidityInDays">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="&UrbanTransport;Ticket"/>
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topDataProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#topDataProperty -->
+
+    <owl:DatatypeProperty rdf:about="&owl;topDataProperty"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Bus -->
+
+    <owl:Class rdf:about="&UrbanTransport;Bus">
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Vehicle"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&UrbanTransport;Vehicle"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&UrbanTransport;hasVehicleType"/>
+                        <owl:allValuesFrom rdf:resource="&UrbanTransport;Street"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#BusLine -->
+
+    <owl:Class rdf:about="&UrbanTransport;BusLine">
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Line"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#BusStation -->
+
+    <owl:Class rdf:about="&UrbanTransport;BusStation">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&UrbanTransport;Station"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&UrbanTransport;isVisitedBy"/>
+                        <owl:someValuesFrom rdf:resource="&UrbanTransport;BusLine"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Station"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Customer -->
+
+    <owl:Class rdf:about="&UrbanTransport;Customer">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&UrbanTransport;Person"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&UrbanTransport;isOwnerOf"/>
+                        <owl:someValuesFrom rdf:resource="&UrbanTransport;Ticket"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#DayTicket -->
+
+    <owl:Class rdf:about="&UrbanTransport;DayTicket">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&UrbanTransport;Ticket"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&UrbanTransport;hasValidityInDays"/>
+                        <owl:hasValue rdf:datatype="&xsd;integer">1</owl:hasValue>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Ticket"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Driver -->
+
+    <owl:Class rdf:about="&UrbanTransport;Driver">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&UrbanTransport;Person"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&UrbanTransport;isDriverOf"/>
+                        <owl:someValuesFrom rdf:resource="&UrbanTransport;Line"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Person"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Line -->
+
+    <owl:Class rdf:about="&UrbanTransport;Line">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#MonthTicket -->
+
+    <owl:Class rdf:about="&UrbanTransport;MonthTicket">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&UrbanTransport;Ticket"/>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&UrbanTransport;hasValidityInDays"/>
+                                <owl:hasValue rdf:datatype="&xsd;integer">28</owl:hasValue>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&UrbanTransport;hasValidityInDays"/>
+                                <owl:hasValue rdf:datatype="&xsd;integer">30</owl:hasValue>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&UrbanTransport;hasValidityInDays"/>
+                                <owl:hasValue rdf:datatype="&xsd;integer">31</owl:hasValue>
+                            </owl:Restriction>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Ticket"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Person -->
+
+    <owl:Class rdf:about="&UrbanTransport;Person">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Rails -->
+
+    <owl:Class rdf:about="&UrbanTransport;Rails">
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;VehicleType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#RailsVehicle -->
+
+    <owl:Class rdf:about="&UrbanTransport;RailsVehicle">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&UrbanTransport;Vehicle"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&UrbanTransport;hasVehicleType"/>
+                        <owl:allValuesFrom rdf:resource="&UrbanTransport;Rails"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Vehicle"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#SingleTicket -->
+
+    <owl:Class rdf:about="&UrbanTransport;SingleTicket">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&UrbanTransport;Ticket"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&UrbanTransport;hasValidityInDays"/>
+                        <owl:hasValue rdf:datatype="&xsd;integer">0</owl:hasValue>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Ticket"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Station -->
+
+    <owl:Class rdf:about="&UrbanTransport;Station">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Street -->
+
+    <owl:Class rdf:about="&UrbanTransport;Street">
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;VehicleType"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#StreetVehicle -->
+
+    <owl:Class rdf:about="&UrbanTransport;StreetVehicle">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&UrbanTransport;Vehicle"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&UrbanTransport;hasVehicleType"/>
+                        <owl:allValuesFrom rdf:resource="&UrbanTransport;Street"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Vehicle"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Ticket -->
+
+    <owl:Class rdf:about="&UrbanTransport;Ticket">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Train -->
+
+    <owl:Class rdf:about="&UrbanTransport;Train">
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Vehicle"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&UrbanTransport;hasVehicleType"/>
+                <owl:allValuesFrom rdf:resource="&UrbanTransport;Rails"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#TrainLine -->
+
+    <owl:Class rdf:about="&UrbanTransport;TrainLine">
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Line"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#TrainStation -->
+
+    <owl:Class rdf:about="&UrbanTransport;TrainStation">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&UrbanTransport;Station"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&UrbanTransport;isVisitedBy"/>
+                        <owl:someValuesFrom rdf:resource="&UrbanTransport;TrainLine"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Station"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Tramway -->
+
+    <owl:Class rdf:about="&UrbanTransport;Tramway">
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Vehicle"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&UrbanTransport;Vehicle"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&UrbanTransport;hasVehicleType"/>
+                        <owl:allValuesFrom rdf:resource="&UrbanTransport;Rails"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#TramwayLine -->
+
+    <owl:Class rdf:about="&UrbanTransport;TramwayLine">
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Line"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#TramwayStation -->
+
+    <owl:Class rdf:about="&UrbanTransport;TramwayStation">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&UrbanTransport;Station"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&UrbanTransport;isVisitedBy"/>
+                        <owl:someValuesFrom rdf:resource="&UrbanTransport;TramwayLine"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Station"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Underground -->
+
+    <owl:Class rdf:about="&UrbanTransport;Underground">
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Vehicle"/>
+        <rdfs:subClassOf>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&UrbanTransport;Vehicle"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&UrbanTransport;hasVehicleType"/>
+                        <owl:allValuesFrom rdf:resource="&UrbanTransport;Rails"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#UndergroundLine -->
+
+    <owl:Class rdf:about="&UrbanTransport;UndergroundLine">
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Line"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#UndergroundStation -->
+
+    <owl:Class rdf:about="&UrbanTransport;UndergroundStation">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&UrbanTransport;Station"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&UrbanTransport;isVisitedBy"/>
+                        <owl:someValuesFrom rdf:resource="&UrbanTransport;UndergroundLine"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Station"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Vehicle -->
+
+    <owl:Class rdf:about="&UrbanTransport;Vehicle">
+        <rdfs:subClassOf rdf:resource="&owl;Thing"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#VehicleType -->
+
+    <owl:Class rdf:about="&UrbanTransport;VehicleType"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#WeekTicket -->
+
+    <owl:Class rdf:about="&UrbanTransport;WeekTicket">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&UrbanTransport;Ticket"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&UrbanTransport;hasValidityInDays"/>
+                        <owl:hasValue rdf:datatype="&xsd;integer">7</owl:hasValue>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Ticket"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#YearTicket -->
+
+    <owl:Class rdf:about="&UrbanTransport;YearTicket">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&UrbanTransport;Ticket"/>
+                    <owl:Class>
+                        <owl:unionOf rdf:parseType="Collection">
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&UrbanTransport;hasValidityInDays"/>
+                                <owl:hasValue rdf:datatype="&xsd;integer">365</owl:hasValue>
+                            </owl:Restriction>
+                            <owl:Restriction>
+                                <owl:onProperty rdf:resource="&UrbanTransport;hasValidityInDays"/>
+                                <owl:hasValue rdf:datatype="&xsd;integer">366</owl:hasValue>
+                            </owl:Restriction>
+                        </owl:unionOf>
+                    </owl:Class>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="&UrbanTransport;Ticket"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&UrbanTransport;BusLine"/>
+            <rdf:Description rdf:about="&UrbanTransport;TrainLine"/>
+            <rdf:Description rdf:about="&UrbanTransport;TramwayLine"/>
+            <rdf:Description rdf:about="&UrbanTransport;UndergroundLine"/>
+        </owl:members>
+    </rdf:Description>
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <owl:members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&UrbanTransport;Bus"/>
+            <rdf:Description rdf:about="&UrbanTransport;Train"/>
+            <rdf:Description rdf:about="&UrbanTransport;Tramway"/>
+            <rdf:Description rdf:about="&UrbanTransport;Underground"/>
+        </owl:members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.1.0.20069) http://owlapi.sourceforge.net -->
+
