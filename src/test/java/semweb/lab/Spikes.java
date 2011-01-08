@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.hp.hpl.jena.graph.Node;
@@ -23,10 +22,6 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.reasoner.ValidityReport;
 
 public class Spikes {
-
-	@BeforeClass
-	public static void setUpBeforeClass() {
-	}
 
 	private InfModel model;
 
