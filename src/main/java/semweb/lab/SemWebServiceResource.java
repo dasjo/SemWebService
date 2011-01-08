@@ -29,16 +29,16 @@ import com.hp.hpl.jena.reasoner.ValidityReport;
 import com.hp.hpl.jena.reasoner.ValidityReport.Report;
 
 @Path("/sparql")
-public class SPARQLServiceResource implements SPARQLService {
+public class SemWebServiceResource implements SemWebService {
 
-	private static Log logger = LogFactory.getLog(SPARQLServiceResource.class);
+	private static Log logger = LogFactory.getLog(SemWebServiceResource.class);
 
 	@Context
 	MessageContext messageContext;
 
 	private InfModel infModel;
 
-	public SPARQLServiceResource(InfModel model) {
+	public SemWebServiceResource(InfModel model) {
 		this.infModel = model;
 	}
 
@@ -47,6 +47,7 @@ public class SPARQLServiceResource implements SPARQLService {
 	public Response insert(Triple triple) {
 		Resource resource = this.infModel.createResource(triple.getSubject());
 		Property property = this.infModel.createProperty(triple.getPredicate());
+		
 		if (triple.isLiteral) {
 			resource.addLiteral(property, triple.getObject());
 		} else {

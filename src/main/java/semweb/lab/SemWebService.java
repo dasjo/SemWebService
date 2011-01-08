@@ -2,7 +2,7 @@ package semweb.lab;
 
 import javax.ws.rs.core.Response;
 
-public interface SPARQLService {
+public interface SemWebService {
 
   Response insert(Triple object);
   

@@ -105,8 +105,6 @@ public class Spikes {
 		ValidityReport validity = model.validate();
 		Assert.assertTrue(validity.isValid());
 
-		// TODO exceptions
-
 		FileOutputStream file;
 		try {
 			file = new FileOutputStream("test.owl");
