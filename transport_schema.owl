@@ -1,0 +1,669 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     ontologyIRI="http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl">
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="owl2xml" IRI="http://www.w3.org/2006/12/owl2-xml#"/>
+    <Prefix name="" IRI="http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="UrbanTransport" IRI="http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#"/>
+    <Prefix name="UrbanTransport3" IRI="http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#15"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix name="UrbanTransport2" IRI="http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#84"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="&xsd;string">The urban transport ontology that models the public transport system of a bigger city.</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="&xsd;string">The person instance NikiLauda uses automated instance classification since it&#39;s classified as Driver.</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="&xsd;string">The object property hasStopIn is between Line and Station is inverse (inverse property: isVisitedBy)</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="&xsd;string">The object property isOwnerOf between Customer and Ticket is inverse functional (inverse property: isOwnedBy)</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="&xsd;string">The entity BusStation uses the existential quantifier restriction &quot;isVisitedBy some BusLine&quot; and the entity StreetVehicle uses the universal quantifier restriction &quot;hasVehicleType only Street&quot;</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="&xsd;string">The entity StreetVehicle uses automated classification to assign the entity Bus as a subclass of it.</Literal>
+    </Annotation>
+    <Declaration>
+        <Class IRI="#Bus"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BusLine"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BusStation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Customer"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DayTicket"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Driver"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Line"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MonthTicket"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Person"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Rails"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RailsVehicle"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SingleTicket"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Station"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Street"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#StreetVehicle"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Ticket"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Train"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TrainLine"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TrainStation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Tramway"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TramwayLine"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TramwayStation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Underground"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UndergroundLine"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UndergroundStation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Vehicle"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#VehicleType"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WeekTicket"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#YearTicket"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasDriver"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasStopIn"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasVehicleType"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isAssignedTo"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDriverOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isOwnedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isOwnerOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isVisitedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasCapacity"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasInterval"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasPrize"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasValidityInDays"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+    </Declaration>
+    <EquivalentClasses>
+        <Class IRI="#BusStation"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Station"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isVisitedBy"/>
+                <Class IRI="#BusLine"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Customer"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isOwnerOf"/>
+                <Class IRI="#Ticket"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#DayTicket"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Ticket"/>
+            <DataHasValue>
+                <DataProperty IRI="#hasValidityInDays"/>
+                <Literal datatypeIRI="&xsd;integer">1</Literal>
+            </DataHasValue>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Driver"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isDriverOf"/>
+                <Class IRI="#Line"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#MonthTicket"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Ticket"/>
+            <ObjectUnionOf>
+                <DataHasValue>
+                    <DataProperty IRI="#hasValidityInDays"/>
+                    <Literal datatypeIRI="&xsd;integer">28</Literal>
+                </DataHasValue>
+                <DataHasValue>
+                    <DataProperty IRI="#hasValidityInDays"/>
+                    <Literal datatypeIRI="&xsd;integer">30</Literal>
+                </DataHasValue>
+                <DataHasValue>
+                    <DataProperty IRI="#hasValidityInDays"/>
+                    <Literal datatypeIRI="&xsd;integer">31</Literal>
+                </DataHasValue>
+            </ObjectUnionOf>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#RailsVehicle"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Vehicle"/>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasVehicleType"/>
+                <Class IRI="#Rails"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#SingleTicket"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Ticket"/>
+            <DataHasValue>
+                <DataProperty IRI="#hasValidityInDays"/>
+                <Literal datatypeIRI="&xsd;integer">0</Literal>
+            </DataHasValue>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#StreetVehicle"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Vehicle"/>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasVehicleType"/>
+                <Class IRI="#Street"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#TrainStation"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Station"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isVisitedBy"/>
+                <Class IRI="#TrainLine"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#TramwayStation"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Station"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isVisitedBy"/>
+                <Class IRI="#TramwayLine"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#UndergroundStation"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Station"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isVisitedBy"/>
+                <Class IRI="#UndergroundLine"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#WeekTicket"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Ticket"/>
+            <DataHasValue>
+                <DataProperty IRI="#hasValidityInDays"/>
+                <Literal datatypeIRI="&xsd;integer">7</Literal>
+            </DataHasValue>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#YearTicket"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Ticket"/>
+            <ObjectUnionOf>
+                <DataHasValue>
+                    <DataProperty IRI="#hasValidityInDays"/>
+                    <Literal datatypeIRI="&xsd;integer">365</Literal>
+                </DataHasValue>
+                <DataHasValue>
+                    <DataProperty IRI="#hasValidityInDays"/>
+                    <Literal datatypeIRI="&xsd;integer">366</Literal>
+                </DataHasValue>
+            </ObjectUnionOf>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <SubClassOf>
+        <Class IRI="#Bus"/>
+        <Class IRI="#Vehicle"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Bus"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Vehicle"/>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasVehicleType"/>
+                <Class IRI="#Street"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BusLine"/>
+        <Class IRI="#Line"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BusStation"/>
+        <Class IRI="#Station"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Customer"/>
+        <Class IRI="#Person"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DayTicket"/>
+        <Class IRI="#Ticket"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Driver"/>
+        <Class IRI="#Person"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Line"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MonthTicket"/>
+        <Class IRI="#Ticket"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Person"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Rails"/>
+        <Class IRI="#VehicleType"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RailsVehicle"/>
+        <Class IRI="#Vehicle"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SingleTicket"/>
+        <Class IRI="#Ticket"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Station"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Street"/>
+        <Class IRI="#VehicleType"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#StreetVehicle"/>
+        <Class IRI="#Vehicle"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Ticket"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Train"/>
+        <Class IRI="#Vehicle"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Train"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasVehicleType"/>
+            <Class IRI="#Rails"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TrainLine"/>
+        <Class IRI="#Line"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TrainStation"/>
+        <Class IRI="#Station"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Tramway"/>
+        <Class IRI="#Vehicle"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Tramway"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Vehicle"/>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasVehicleType"/>
+                <Class IRI="#Rails"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TramwayLine"/>
+        <Class IRI="#Line"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TramwayStation"/>
+        <Class IRI="#Station"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Underground"/>
+        <Class IRI="#Vehicle"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Underground"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Vehicle"/>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#hasVehicleType"/>
+                <Class IRI="#Rails"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UndergroundLine"/>
+        <Class IRI="#Line"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UndergroundStation"/>
+        <Class IRI="#Station"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Vehicle"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#WeekTicket"/>
+        <Class IRI="#Ticket"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#YearTicket"/>
+        <Class IRI="#Ticket"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#Bus"/>
+        <Class IRI="#Train"/>
+        <Class IRI="#Tramway"/>
+        <Class IRI="#Underground"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#BusLine"/>
+        <Class IRI="#TrainLine"/>
+        <Class IRI="#TramwayLine"/>
+        <Class IRI="#UndergroundLine"/>
+    </DisjointClasses>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasDriver"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasStopIn"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasVehicleType"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isAssignedTo"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDriverOf"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isOwnedBy"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isOwnerOf"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isVisitedBy"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isDriverOf"/>
+        <ObjectProperty IRI="#hasDriver"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isVisitedBy"/>
+        <ObjectProperty IRI="#hasStopIn"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isOwnerOf"/>
+        <ObjectProperty IRI="#isOwnedBy"/>
+    </InverseObjectProperties>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasVehicleType"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#isAssignedTo"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#isOwnedBy"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#isOwnerOf"/>
+    </FunctionalObjectProperty>
+    <InverseFunctionalObjectProperty>
+        <ObjectProperty IRI="#isOwnedBy"/>
+    </InverseFunctionalObjectProperty>
+    <InverseFunctionalObjectProperty>
+        <ObjectProperty IRI="#isOwnerOf"/>
+    </InverseFunctionalObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasStopIn"/>
+        <Class IRI="#Line"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasVehicleType"/>
+        <Class IRI="#Vehicle"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isAssignedTo"/>
+        <Class IRI="#Vehicle"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isDriverOf"/>
+        <Class IRI="#Driver"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isOwnedBy"/>
+        <Class IRI="#Ticket"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isVisitedBy"/>
+        <Class IRI="#Station"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasStopIn"/>
+        <Class IRI="#Station"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasVehicleType"/>
+        <Class IRI="#VehicleType"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isAssignedTo"/>
+        <Class IRI="#Line"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isDriverOf"/>
+        <Class IRI="#Vehicle"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isOwnedBy"/>
+        <Class IRI="#Customer"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isVisitedBy"/>
+        <Class IRI="#Line"/>
+    </ObjectPropertyRange>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#hasCapacity"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#hasInterval"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#hasPrize"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="#hasValidityInDays"/>
+        <DataProperty abbreviatedIRI="owl:topDataProperty"/>
+    </SubDataPropertyOf>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasCapacity"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasInterval"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasPrize"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#hasValidityInDays"/>
+    </FunctionalDataProperty>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasCapacity"/>
+        <Class IRI="#Vehicle"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasInterval"/>
+        <Class IRI="#Line"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasPrize"/>
+        <Class IRI="#Ticket"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasValidityInDays"/>
+        <Class IRI="#Ticket"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasCapacity"/>
+        <Datatype abbreviatedIRI="xsd:positiveInteger"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasInterval"/>
+        <Datatype abbreviatedIRI="xsd:positiveInteger"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasPrize"/>
+        <Datatype abbreviatedIRI="xsd:nonNegativeInteger"/>
+    </DataPropertyRange>
+    <DataPropertyRange>
+        <DataProperty IRI="#hasValidityInDays"/>
+        <Datatype abbreviatedIRI="xsd:nonNegativeInteger"/>
+    </DataPropertyRange>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.1.0.20069) http://owlapi.sourceforge.net -->
+

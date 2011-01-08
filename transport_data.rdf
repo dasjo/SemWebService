@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY UrbanTransport "http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#" >
+    <!ENTITY UrbanTransport2 "http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#84" >
+    <!ENTITY UrbanTransport3 "http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#15" >
+]>
+
+
+<rdf:RDF xmlns="http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#"
+     xml:base="http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:UrbanTransport2="&UrbanTransport;84"
+     xmlns:UrbanTransport="http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:UrbanTransport3="&UrbanTransport;15"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+     
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#71 -->
+
+    <owl:Thing rdf:about="&UrbanTransport;71">
+        <rdf:type rdf:resource="&UrbanTransport;TramwayLine"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <hasInterval rdf:datatype="&xsd;positiveInteger">8</hasInterval>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#84A -->
+
+    <owl:Thing rdf:about="&UrbanTransport;84A">
+        <rdf:type rdf:resource="&UrbanTransport;BusLine"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <hasInterval rdf:datatype="&xsd;positiveInteger">15</hasInterval>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Bim1 -->
+
+    <owl:Thing rdf:about="&UrbanTransport;Bim1">
+        <rdf:type rdf:resource="&UrbanTransport;Tramway"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <hasCapacity rdf:datatype="&xsd;positiveInteger">250</hasCapacity>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Bus1 -->
+
+    <owl:Thing rdf:about="&UrbanTransport;Bus1">
+        <rdf:type rdf:resource="&UrbanTransport;Bus"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <hasCapacity rdf:datatype="&xsd;nonNegativeInteger">54</hasCapacity>
+        <isAssignedTo rdf:resource="&UrbanTransport;84A"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Fahrschein1 -->
+
+    <owl:Thing rdf:about="&UrbanTransport;Fahrschein1">
+        <rdf:type rdf:resource="&UrbanTransport;Ticket"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <hasValidityInDays rdf:datatype="&xsd;nonNegativeInteger">0</hasValidityInDays>
+        <hasPrize rdf:datatype="&xsd;positiveInteger">2</hasPrize>
+        <isOwnedBy rdf:resource="&UrbanTransport;NikkiLauda"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#GerhardBerger -->
+
+    <owl:Thing rdf:about="&UrbanTransport;GerhardBerger">
+        <rdf:type rdf:resource="&UrbanTransport;Person"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <isDriverOf rdf:resource="&UrbanTransport;Ubahn1"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Jahreskarte1 -->
+
+    <owl:Thing rdf:about="&UrbanTransport;Jahreskarte1">
+        <rdf:type rdf:resource="&UrbanTransport;Ticket"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <hasPrize rdf:datatype="&xsd;positiveInteger">355</hasPrize>
+        <hasValidityInDays rdf:datatype="&xsd;nonNegativeInteger">365</hasValidityInDays>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#JochenRindt -->
+
+    <owl:Thing rdf:about="&UrbanTransport;JochenRindt">
+        <rdf:type rdf:resource="&UrbanTransport;Person"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <isDriverOf rdf:resource="&UrbanTransport;Bim1"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#MaxMuster -->
+
+    <owl:Thing rdf:about="&UrbanTransport;MaxMuster">
+        <rdf:type rdf:resource="&UrbanTransport;Person"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <isOwnerOf rdf:resource="&UrbanTransport;Jahreskarte1"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#NikkiLauda -->
+
+    <owl:Thing rdf:about="&UrbanTransport;NikkiLauda">
+        <rdf:type rdf:resource="&UrbanTransport;Person"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <isDriverOf rdf:resource="&UrbanTransport;Bus1"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Schlachthausgasse -->
+
+    <owl:Thing rdf:about="&UrbanTransport;Schlachthausgasse">
+        <rdf:type rdf:resource="&UrbanTransport;Station"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <isVisitedBy rdf:resource="&UrbanTransport;84A"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#StMarx -->
+
+    <owl:Thing rdf:about="&UrbanTransport;StMarx">
+        <rdf:type rdf:resource="&UrbanTransport;Station"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <isVisitedBy rdf:resource="&UrbanTransport;71"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#U3 -->
+
+    <owl:Thing rdf:about="&UrbanTransport;U3">
+        <rdf:type rdf:resource="&UrbanTransport;UndergroundLine"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <hasInterval rdf:datatype="&xsd;positiveInteger">4</hasInterval>
+        <hasStopIn rdf:resource="&UrbanTransport;Schlachthausgasse"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Ubahn1 -->
+
+    <owl:Thing rdf:about="&UrbanTransport;Ubahn1">
+        <rdf:type rdf:resource="&UrbanTransport;Underground"/>
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <isAssignedTo rdf:resource="&UrbanTransport;U3"/>
+    </owl:Thing>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.1.0.20069) http://owlapi.sourceforge.net -->
+
