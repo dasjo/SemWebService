@@ -85,16 +85,21 @@ public class SemWebServiceResourceTest {
 		triple.object = 500;
 		triple.isLiteral = true;
 
-		checkNodeExisting(triple.getSubject(), true);
+		checkNodeExisting("Subject must exist before: "
+				+ triple.getSubject(), triple.getSubject(), true);
 		Response response = createWebClient().post(triple);
 
-		assertThat(response.getStatus(), is(200));
+		assertThat("Inserting existing subject is expected to succeed",
+				response.getStatus(), is(200));
 		Resource resource = semWebServiceResource.getInfModel().getResource(
 				triple.getSubject());
 		Statement property = getExistingProperty(resource, triple
 				.getPredicate());
-		assertThat(property, notNullValue());
-		assertThat(property.getInt(), is(triple.getObject()));
+		assertThat("Subject must have property: " + triple.getPredicate(),
+				property, notNullValue());
+		assertThat("Property value must be updated to: "
+				+ triple.getObject().toString(), property.getInt(), is(triple
+				.getObject()));
 	}
 
 	@Test
@@ -105,16 +110,20 @@ public class SemWebServiceResourceTest {
 		triple.object = 500;
 		triple.isLiteral = true;
 
-		checkNodeExisting(triple.getSubject(), false);
+		checkNodeExisting("Subject must not exist before: "
+				+ triple.getSubject(), triple.getSubject(), false);
 		Response response = createWebClient().post(triple);
 
-		assertThat(response.getStatus(), is(200));
+		assertThat("Inserting non-existing subject is expected to succeed",
+				response.getStatus(), is(200));
 		Resource resource = semWebServiceResource.getInfModel().getResource(
 				triple.getSubject());
 		Statement property = getExistingProperty(resource, triple
 				.getPredicate());
-		assertThat(property, notNullValue());
-		assertThat(property.getInt(), is(triple.getObject()));
+		assertThat("Subject must have property: " + triple.getPredicate(),
+				property, notNullValue());
+		assertThat("Property value must be: " + triple.getObject().toString(),
+				property.getInt(), is(triple.getObject()));
 	}
 
 	@Test
@@ -124,17 +133,24 @@ public class SemWebServiceResourceTest {
 		triple.predicate = PREFIX + "isOwnedBy";
 		triple.object = PREFIX + "NikkiLauda";
 
-		checkNodeExisting(triple.getSubject(), true);
-		checkNodeExisting((String) triple.getObject(), true);
+		checkNodeExisting("Subject must exist before: " + triple.getSubject(),
+				triple.getSubject(), true);
+		checkNodeExisting("Object must exist before: "
+				+ triple.getObject().toString(), (String) triple.getObject(),
+				true);
 		Response response = createWebClient().post(triple);
 
-		assertThat(response.getStatus(), is(200));
+		assertThat(
+				"Inserting existing subject with existing object is expected to succeed",
+				response.getStatus(), is(200));
 		Resource resource = semWebServiceResource.getInfModel().getResource(
 				triple.getSubject());
 		Statement property = getExistingProperty(resource, triple
 				.getPredicate());
-		assertThat(property, notNullValue());
-		assertThat(property.getResource().getURI(), is(triple.getObject()));
+		assertThat("Subject must have property: " + triple.getPredicate(),
+				property, notNullValue());
+		assertThat("Property value must be: " + triple.getObject().toString(),
+				property.getResource().getURI(), is(triple.getObject()));
 	}
 
 	@Test
@@ -144,17 +160,24 @@ public class SemWebServiceResourceTest {
 		triple.predicate = PREFIX + "isOwnedBy";
 		triple.object = PREFIX + "JohnDoe";
 
-		checkNodeExisting(triple.getSubject(), true);
-		checkNodeExisting((String) triple.getObject(), false);
+		checkNodeExisting("Subject must exist before: " + triple.getSubject(),
+				triple.getSubject(), true);
+		checkNodeExisting("Object must not exist before: "
+				+ triple.getObject().toString(), (String) triple.getObject(),
+				false);
 		Response response = createWebClient().post(triple);
 
-		assertThat(response.getStatus(), is(200));
+		assertThat(
+				"Inserting existing subject with non-existing object is expected to succeed",
+				response.getStatus(), is(200));
 		Resource resource = semWebServiceResource.getInfModel().getResource(
 				triple.getSubject());
 		Statement property = getExistingProperty(resource, triple
 				.getPredicate());
-		assertThat(property, notNullValue());
-		assertThat(property.getResource().getURI(), is(triple.getObject()));
+		assertThat("Subject must have property: " + triple.getPredicate(),
+				property, notNullValue());
+		assertThat("Property value must be: " + triple.getObject().toString(),
+				property.getResource().getURI(), is(triple.getObject()));
 	}
 
 	@Test
@@ -164,17 +187,24 @@ public class SemWebServiceResourceTest {
 		triple.predicate = RDF.type.getURI();
 		triple.object = PREFIX + "Ticket";
 
-		checkNodeExisting(triple.getSubject(), false);
-		checkNodeExisting((String) triple.getObject(), true);
+		checkNodeExisting("Subject must not exist before: "
+				+ triple.getSubject(), triple.getSubject(), false);
+		checkNodeExisting("Object must not exist before: "
+				+ triple.getObject().toString(), (String) triple.getObject(),
+				true);
 		Response response = createWebClient().post(triple);
 
-		assertThat(response.getStatus(), is(200));
+		assertThat(
+				"Inserting non-existing subject with non-existing object is expected to succeed",
+				response.getStatus(), is(200));
 		Resource resource = semWebServiceResource.getInfModel().getResource(
 				triple.getSubject());
 		Statement property = getExistingProperty(resource, triple
 				.getPredicate());
-		assertThat(property, notNullValue());
-		assertThat(property.getResource().getURI(), is(triple.getObject()));
+		assertThat("Subject must have property: " + triple.getPredicate(),
+				property, notNullValue());
+		assertThat("Property value must be: " + triple.getObject().toString(),
+				property.getResource().getURI(), is(triple.getObject()));
 	}
 
 	@Test
@@ -184,16 +214,23 @@ public class SemWebServiceResourceTest {
 		triple.predicate = RDF.type.getURI();
 		triple.object = PREFIX + "Tramway";
 
-		checkNodeExisting(triple.getSubject(), false);
-		checkNodeExisting((String) triple.getObject(), true);
+		checkNodeExisting("Subject must not exist before: "
+				+ triple.getSubject(), triple.getSubject(), false);
+		checkNodeExisting("Object must exist before: "
+				+ triple.getObject().toString(), (String) triple.getObject(),
+				true);
 		Response response = createWebClient().post(triple);
 
-		assertThat(response.getStatus(), is(200));
+		assertThat(
+				"Inserting non-existing subject with existing object is expected to succeed",
+				response.getStatus(), is(200));
 		Resource resource = semWebServiceResource.getInfModel().getResource(
 				triple.getSubject());
 		Statement property = getExistingProperty(resource, RDF.type.getURI(),
 				PREFIX + "Vehicle");
-		assertThat(property, notNullValue());
+		assertThat(
+				"OWL Reasoner must have inferred property Vehicle for inserted subject",
+				property, notNullValue());
 	}
 
 	@Test
@@ -203,25 +240,22 @@ public class SemWebServiceResourceTest {
 		triple.predicate = RDF.type.getURI();
 		triple.object = PREFIX + "Ticket";
 		Response response = createWebClient().post(triple);
-		assertThat(response.getStatus(), is(200));
+		assertThat("Inserting subject with object is expected to succeed",
+				response.getStatus(), is(200));
 
 		triple.predicate = PREFIX + "hasPrize";
 		triple.object = 10;
 		triple.isLiteral = true;
 		response = createWebClient().post(triple);
-		assertThat(response.getStatus(), is(200));
+		assertThat("Inserting subject with object is expected to succeed",
+				response.getStatus(), is(200));
 		Resource resource = semWebServiceResource.getInfModel().getResource(
 				triple.getSubject());
 		Statement property = getExistingProperty(resource, RDF.type.getURI(),
 				PREFIX + "CheapTicket");
-		assertThat(property, notNullValue());
-	}
-
-	private void checkNodeExisting(String uri, boolean existing) {
-		Node node = Node.createURI(uri);
-		RDFNode rdfNode = semWebServiceResource.getInfModel().getRDFNode(node);
-		assertThat(semWebServiceResource.getInfModel()
-				.containsResource(rdfNode), is(existing));
+		assertThat(
+				"CheapTicket property wasn't inferred properly for ticket with value: "
+						+ triple.object.toString(), property, notNullValue());
 	}
 
 	@Test
@@ -234,12 +268,13 @@ public class SemWebServiceResourceTest {
 
 		Node node = Node.createURI((String) triple.getSubject());
 		RDFNode rdfNode = semWebServiceResource.getInfModel().getRDFNode(node);
-		assertThat(semWebServiceResource.getInfModel()
-				.containsResource(rdfNode), is(true));
+		assertThat("Subject must exist in model", semWebServiceResource
+				.getInfModel().containsResource(rdfNode), is(true));
 
 		Response response = createWebClient().post(triple);
 
-		assertThat(response.getStatus(), is(500));
+		assertThat("Updating subject must fail due to validation", response
+				.getStatus(), is(500));
 	}
 
 	@Test
@@ -253,21 +288,25 @@ public class SemWebServiceResourceTest {
 		assertThat(response.getStatus(), is(200));
 		NodeList nodes = selectNodesFromSparqlResult(response,
 				"/sparql/results/result/binding[@name='x']/uri");
-		assertThat(nodes.getLength(), is(3));
+		assertThat("Invalid number of matches in SPARQL query", nodes
+				.getLength(), is(3));
 		assertThat(
+				"Unexpected result in SPARQL query",
 				nodes.item(0).getTextContent(),
 				is("http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#NikkiLauda"));
 		assertThat(
+				"Unexpected result in SPARQL query",
 				nodes.item(1).getTextContent(),
 				is("http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#JochenRindt"));
 		assertThat(
+				"Unexpected result in SPARQL query",
 				nodes.item(2).getTextContent(),
 				is("http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#GerhardBerger"));
 	}
 
 	@Test
-	public void query_afterInsert_shouldReturnInserted()
-			throws IOException, ParserConfigurationException, SAXException,
+	public void query_afterInsert_shouldReturnInserted() throws IOException,
+			ParserConfigurationException, SAXException,
 			XPathExpressionException {
 		Triple triple = new Triple();
 		triple.subject = PREFIX + "MatthiasRauch";
@@ -276,19 +315,26 @@ public class SemWebServiceResourceTest {
 
 		Response response = createWebClient().post(triple);
 
-		String queryString = "" 
-			+ "PREFIX ut:<" + PREFIX + "> " 
-			+ "SELECT ?x "
-			+ "WHERE { ?x a ut:Person }";
+		String queryString = "" + "PREFIX ut:<" + PREFIX + "> " + "SELECT ?x "
+				+ "WHERE { ?x a ut:Person }";
 		response = createWebClient(queryString).get();
 
 		assertThat(response.getStatus(), is(200));
 		NodeList nodes = selectNodesFromSparqlResult(response,
 				"/sparql/results/result/binding[@name='x']/uri");
-		assertThat(nodes.getLength(), is(5));
+		assertThat("Invalid number of matches in SPARQL query", nodes
+				.getLength(), is(5));
 		assertThat(
+				"Unexpected result in SPARQL query",
 				nodes.item(0).getTextContent(),
 				is("http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#MatthiasRauch"));
+	}
+	
+	private void checkNodeExisting(String reason, String uri, boolean existing) {
+		Node node = Node.createURI(uri);
+		RDFNode rdfNode = semWebServiceResource.getInfModel().getRDFNode(node);
+		assertThat(reason, semWebServiceResource.getInfModel()
+				.containsResource(rdfNode), is(existing));
 	}
 
 	private static NodeList selectNodesFromSparqlResult(Response response,
