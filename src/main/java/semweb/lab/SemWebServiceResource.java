@@ -1,11 +1,11 @@
 package semweb.lab;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -22,11 +22,18 @@ import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFormatter;
 import com.hp.hpl.jena.rdf.model.InfModel;
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Statement;
+import com.hp.hpl.jena.reasoner.Reasoner;
+import com.hp.hpl.jena.reasoner.ReasonerRegistry;
 import com.hp.hpl.jena.reasoner.ValidityReport;
 import com.hp.hpl.jena.reasoner.ValidityReport.Report;
+import com.hp.hpl.jena.reasoner.rulesys.GenericRuleReasoner;
+import com.hp.hpl.jena.reasoner.rulesys.Rule;
 
 @Path("/sparql")
 public class SemWebServiceResource implements SemWebService {
@@ -36,10 +43,21 @@ public class SemWebServiceResource implements SemWebService {
 	@Context
 	MessageContext messageContext;
 
+	private InfModel ontModel;
 	private InfModel infModel;
 
-	public SemWebServiceResource(InfModel model) {
-		this.infModel = model;
+	public SemWebServiceResource(Model schema, Model data, List<Rule> rules) {
+		logger.info("Creating reasoners...");
+		Reasoner ontReasoner = ReasonerRegistry.getRDFSReasoner();
+		Reasoner ruleReasoner = new GenericRuleReasoner(rules);
+
+		logger.info("Inferring information via RDFS reasoner...");
+		this.ontModel = ModelFactory.createInfModel(ontReasoner
+				.bindSchema(schema), data);
+		logger.info("Inference completed.");
+		logger.info("Inferring information via generic rule reasoner...");
+		this.infModel = ModelFactory.createInfModel(ruleReasoner, ontModel);
+		logger.info("Inference completed.");
 	}
 
 	@Override
@@ -47,17 +65,18 @@ public class SemWebServiceResource implements SemWebService {
 	public Response insert(Triple triple) {
 		Resource resource = this.infModel.createResource(triple.getSubject());
 		Property property = this.infModel.createProperty(triple.getPredicate());
-		
+		Statement statement = null;
 		if (triple.isLiteral) {
-			resource.addLiteral(property, triple.getObject());
+			statement = infModel.createLiteralStatement(resource, property,
+					triple.getObject());
 		} else {
 			Node node = Node.createURI((String) triple.getObject());
 			RDFNode rdfNode = infModel.getRDFNode(node);
-			resource.addProperty(property, rdfNode);
+			statement = infModel.createStatement(resource, property, rdfNode);
 		}
-		
-		infModel.rebind();
-		ValidityReport validityReport = infModel.validate();
+		infModel.add(statement);
+
+		ValidityReport validityReport = ontModel.validate();
 		if (!validityReport.isValid()) {
 			StringBuffer message = new StringBuffer(
 					"Validation of model failed due to following errors:\n");
@@ -67,7 +86,6 @@ public class SemWebServiceResource implements SemWebService {
 				message.append(report.getDescription());
 				message.append("\n");
 			}
-
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(
 					message.toString()).build();
 		}
@@ -77,30 +95,20 @@ public class SemWebServiceResource implements SemWebService {
 
 	@Override
 	@GET
-	public boolean writeOntologyToFile() {
-		logger.debug("writing ontology to file");
-
-		FileOutputStream file;
-		try {
-			file = new FileOutputStream("test.owl");
-			this.infModel.write(file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	@GET
-	public Response query(String sparqlQuery) {
+	public Response query(@QueryParam("qry") String sparqlQuery) {
 		Query query = QueryFactory.create(sparqlQuery);
 		QueryExecution qe = QueryExecutionFactory.create(query, infModel);
 		ResultSet results = qe.execSelect();
+
+		String result = ResultSetFormatter.asXMLString(results);
+		logger.info(result);
+		Response response = Response.ok().entity(result).build();
 		qe.close();
-		String result = ResultSetFormatter.asText(results, query);
-		
-		return Response.ok().entity(result).build();
+		return response;
+	}
+
+	public Model getInfModel() {
+		return infModel;
 	}
 
 }

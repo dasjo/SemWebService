@@ -7,6 +7,4 @@ public interface SemWebService {
   Response insert(Triple object);
   
   Response query(String sparqlQuery);
-
-  boolean writeOntologyToFile();
 }

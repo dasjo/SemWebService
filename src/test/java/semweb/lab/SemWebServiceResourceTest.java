@@ -4,45 +4,77 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.xml.namespace.NamespaceContext;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
+import org.apache.cxf.helpers.MapNamespaceContext;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
 import org.junit.Before;
 import org.junit.Test;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.hp.hpl.jena.graph.Node;
-import com.hp.hpl.jena.rdf.model.InfModel;
+import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
+import com.hp.hpl.jena.reasoner.rulesys.Rule;
+import com.hp.hpl.jena.util.FileManager;
 import com.hp.hpl.jena.vocabulary.RDF;
 
 public class SemWebServiceResourceTest {
 
+	private static final String RULES_FILE = "file:transport.rules";
+	private static final String DATA_FILE = "file:transport_data.rdf";
+	private static final String SCHEMA_FILE = "file:transport_schema.rdf";
 	private static final String SERVICE_URL = "http://localhost:9999/";
 	private static final String PREFIX = "http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#";
-	private InfModel model;
-	private WebClient client;
+	private SemWebServiceResource semWebServiceResource;
 
 	@Before
 	public void setUp() {
-		ModelLoader modelLoader = new ModelLoader("file:transport_schema.rdf",
-				"file:transport_data.rdf", "file:transport.rules");
-		this.model = modelLoader.loadModel();
+		Model schema = FileManager.get().loadModel(SCHEMA_FILE);
+		Model data = FileManager.get().loadModel(DATA_FILE);
+		List<Rule> rules = Rule.rulesFromURL(RULES_FILE);
 
+		semWebServiceResource = new SemWebServiceResource(schema, data, rules);
 		JAXRSServerFactoryBean sf = new JAXRSServerFactoryBean();
 		sf.setResourceClasses(SemWebServiceResource.class);
-		sf
-				.setResourceProvider(SemWebServiceResource.class,
-						new SingletonResourceProvider(
-								new SemWebServiceResource(model)));
+		sf.setResourceProvider(SemWebServiceResource.class,
+				new SingletonResourceProvider(semWebServiceResource));
 		sf.setAddress(SERVICE_URL);
 		sf.create();
+	}
 
-		this.client = WebClient.create(SERVICE_URL + "/sparql");
+	private static WebClient createWebClient() {
+		return WebClient.create(SERVICE_URL + "/sparql");
+	}
+
+	private static WebClient createWebClient(String query)
+			throws UnsupportedEncodingException {
+		UriBuilder builder = UriBuilder.fromUri(SERVICE_URL + "/sparql");
+		builder = builder.queryParam("qry", "{query}");
+		return WebClient.create(builder.build(query));
 	}
 
 	@Test
@@ -54,11 +86,11 @@ public class SemWebServiceResourceTest {
 		triple.isLiteral = true;
 
 		checkNodeExisting(triple.getSubject(), true);
-		Response response = client.post(triple);
+		Response response = createWebClient().post(triple);
 
-		assertThat(response.getStatus(),
-				is(200));
-		Resource resource = model.getResource(triple.getSubject());
+		assertThat(response.getStatus(), is(200));
+		Resource resource = semWebServiceResource.getInfModel().getResource(
+				triple.getSubject());
 		Statement property = getExistingProperty(resource, triple
 				.getPredicate());
 		assertThat(property, notNullValue());
@@ -74,11 +106,11 @@ public class SemWebServiceResourceTest {
 		triple.isLiteral = true;
 
 		checkNodeExisting(triple.getSubject(), false);
-		Response response = client.post(triple);
+		Response response = createWebClient().post(triple);
 
-		assertThat(response.getStatus(),
-				is(200));
-		Resource resource = model.getResource(triple.getSubject());
+		assertThat(response.getStatus(), is(200));
+		Resource resource = semWebServiceResource.getInfModel().getResource(
+				triple.getSubject());
 		Statement property = getExistingProperty(resource, triple
 				.getPredicate());
 		assertThat(property, notNullValue());
@@ -94,11 +126,11 @@ public class SemWebServiceResourceTest {
 
 		checkNodeExisting(triple.getSubject(), true);
 		checkNodeExisting((String) triple.getObject(), true);
-		Response response = client.post(triple);
+		Response response = createWebClient().post(triple);
 
-		assertThat(response.getStatus(),
-				is(200));
-		Resource resource = model.getResource(triple.getSubject());
+		assertThat(response.getStatus(), is(200));
+		Resource resource = semWebServiceResource.getInfModel().getResource(
+				triple.getSubject());
 		Statement property = getExistingProperty(resource, triple
 				.getPredicate());
 		assertThat(property, notNullValue());
@@ -114,11 +146,11 @@ public class SemWebServiceResourceTest {
 
 		checkNodeExisting(triple.getSubject(), true);
 		checkNodeExisting((String) triple.getObject(), false);
-		Response response = client.post(triple);
+		Response response = createWebClient().post(triple);
 
-		assertThat(response.getStatus(),
-				is(200));
-		Resource resource = model.getResource(triple.getSubject());
+		assertThat(response.getStatus(), is(200));
+		Resource resource = semWebServiceResource.getInfModel().getResource(
+				triple.getSubject());
 		Statement property = getExistingProperty(resource, triple
 				.getPredicate());
 		assertThat(property, notNullValue());
@@ -134,11 +166,11 @@ public class SemWebServiceResourceTest {
 
 		checkNodeExisting(triple.getSubject(), false);
 		checkNodeExisting((String) triple.getObject(), true);
-		Response response = client.post(triple);
+		Response response = createWebClient().post(triple);
 
-		assertThat(response.getStatus(),
-				is(200));
-		Resource resource = model.getResource(triple.getSubject());
+		assertThat(response.getStatus(), is(200));
+		Resource resource = semWebServiceResource.getInfModel().getResource(
+				triple.getSubject());
 		Statement property = getExistingProperty(resource, triple
 				.getPredicate());
 		assertThat(property, notNullValue());
@@ -154,39 +186,42 @@ public class SemWebServiceResourceTest {
 
 		checkNodeExisting(triple.getSubject(), false);
 		checkNodeExisting((String) triple.getObject(), true);
-		Response response = client.post(triple);
+		Response response = createWebClient().post(triple);
 
-		assertThat(response.getStatus(),
-				is(200));
-		Resource resource = model.getResource(triple.getSubject());
-		Statement property = getExistingProperty(resource, RDF.type.getURI(), PREFIX + "Vehicle");
+		assertThat(response.getStatus(), is(200));
+		Resource resource = semWebServiceResource.getInfModel().getResource(
+				triple.getSubject());
+		Statement property = getExistingProperty(resource, RDF.type.getURI(),
+				PREFIX + "Vehicle");
 		assertThat(property, notNullValue());
 	}
-	
+
 	@Test
 	public void insertProperty_ruleReasoner_shouldInferStatements() {
 		Triple triple = new Triple();
 		triple.subject = PREFIX + "TicketABC";
 		triple.predicate = RDF.type.getURI();
 		triple.object = PREFIX + "Ticket";
-		Response response = client.post(triple);
-		assertThat(response.getStatus(),
-				is(200));
-		
+		Response response = createWebClient().post(triple);
+		assertThat(response.getStatus(), is(200));
+
 		triple.predicate = PREFIX + "hasPrize";
 		triple.object = 10;
 		triple.isLiteral = true;
-		response = client.post(triple);
+		response = createWebClient().post(triple);
 		assertThat(response.getStatus(), is(200));
-		Resource resource = model.getResource(triple.getSubject());
-		Statement property = getExistingProperty(resource, RDF.type.getURI(), PREFIX + "CheapTicket");
+		Resource resource = semWebServiceResource.getInfModel().getResource(
+				triple.getSubject());
+		Statement property = getExistingProperty(resource, RDF.type.getURI(),
+				PREFIX + "CheapTicket");
 		assertThat(property, notNullValue());
 	}
 
 	private void checkNodeExisting(String uri, boolean existing) {
 		Node node = Node.createURI(uri);
-		RDFNode rdfNode = model.getRDFNode(node);
-		assertThat(model.containsResource(rdfNode), is(existing));
+		RDFNode rdfNode = semWebServiceResource.getInfModel().getRDFNode(node);
+		assertThat(semWebServiceResource.getInfModel()
+				.containsResource(rdfNode), is(existing));
 	}
 
 	@Test
@@ -198,13 +233,78 @@ public class SemWebServiceResourceTest {
 		triple.isLiteral = true;
 
 		Node node = Node.createURI((String) triple.getSubject());
-		RDFNode rdfNode = model.getRDFNode(node);
-		assertThat(model.containsResource(rdfNode), is(true));
+		RDFNode rdfNode = semWebServiceResource.getInfModel().getRDFNode(node);
+		assertThat(semWebServiceResource.getInfModel()
+				.containsResource(rdfNode), is(true));
 
-		Response response = client.post(triple);
+		Response response = createWebClient().post(triple);
 
-		assertThat(response.getStatus(),
-				is(500));
+		assertThat(response.getStatus(), is(500));
+	}
+
+	@Test
+	public void query_allDrivers_shouldReturnAllDrivers() throws IOException,
+			ParserConfigurationException, SAXException,
+			XPathExpressionException {
+		String queryString = "" + "PREFIX ut:<" + PREFIX + "> " + "SELECT ?x "
+				+ "WHERE { ?x a ut:Driver }";
+		Response response = createWebClient(queryString).get();
+
+		assertThat(response.getStatus(), is(200));
+		NodeList nodes = selectNodesFromSparqlResult(response,
+				"/sparql/results/result/binding[@name='x']/uri");
+		assertThat(nodes.getLength(), is(3));
+		assertThat(
+				nodes.item(0).getTextContent(),
+				is("http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#NikkiLauda"));
+		assertThat(
+				nodes.item(1).getTextContent(),
+				is("http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#JochenRindt"));
+		assertThat(
+				nodes.item(2).getTextContent(),
+				is("http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#GerhardBerger"));
+	}
+
+	@Test
+	public void query_afterInsert_shouldReturnInserted()
+			throws IOException, ParserConfigurationException, SAXException,
+			XPathExpressionException {
+		Triple triple = new Triple();
+		triple.subject = PREFIX + "MatthiasRauch";
+		triple.predicate = RDF.type.getURI();
+		triple.object = PREFIX + "Person";
+
+		Response response = createWebClient().post(triple);
+
+		String queryString = "" 
+			+ "PREFIX ut:<" + PREFIX + "> " 
+			+ "SELECT ?x "
+			+ "WHERE { ?x a ut:Person }";
+		response = createWebClient(queryString).get();
+
+		assertThat(response.getStatus(), is(200));
+		NodeList nodes = selectNodesFromSparqlResult(response,
+				"/sparql/results/result/binding[@name='x']/uri");
+		assertThat(nodes.getLength(), is(5));
+		assertThat(
+				nodes.item(0).getTextContent(),
+				is("http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#MatthiasRauch"));
+	}
+
+	private static NodeList selectNodesFromSparqlResult(Response response,
+			String xpathExpr) throws ParserConfigurationException,
+			SAXException, IOException, XPathExpressionException {
+		DocumentBuilder builder = DocumentBuilderFactory.newInstance()
+				.newDocumentBuilder();
+		Document doc = builder.parse((InputStream) response.getEntity());
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		Map<String, String> namespaces = new HashMap<String, String>();
+		namespaces.put("", "http://www.w3.org/2005/sparql-results#");
+		NamespaceContext nsContext = new MapNamespaceContext(namespaces);
+		xpath.setNamespaceContext(nsContext);
+		return (NodeList) xpath
+				.evaluate(xpathExpr, doc, XPathConstants.NODESET);
+
 	}
 
 	private Statement getExistingProperty(Resource resource, String predicate) {

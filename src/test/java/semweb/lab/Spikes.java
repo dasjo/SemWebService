@@ -2,6 +2,7 @@ package semweb.lab;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.Iterator;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -25,19 +26,16 @@ import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.reasoner.Reasoner;
 import com.hp.hpl.jena.reasoner.ReasonerRegistry;
 import com.hp.hpl.jena.reasoner.ValidityReport;
+import com.hp.hpl.jena.reasoner.ValidityReport.Report;
 import com.hp.hpl.jena.util.FileManager;
 import com.hp.hpl.jena.vocabulary.RDF;
 
 public class Spikes {
 
 	private static final String PREFIX = "http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#";
-	private InfModel model;
 
 	@Before
 	public void setUp() {
-		ModelLoader modelLoader = new ModelLoader("file:drupal_schema.owl",
-				"file:drupal_data.rdf", "file:drupal.rules");
-		this.model = modelLoader.loadModel();
 	}
 
 	@After
@@ -46,6 +44,7 @@ public class Spikes {
 
 	@Test
 	public void sparqlQuery_spike() {
+		Model model = FileManager.get().loadModel("file:drupal_data.rdf");
 		String queryString = ""
 				+ "PREFIX drupal:<http://www.semanticweb.org/ontologies/2010/10/drupal.owl#> "
 				+ "SELECT ?x ?name "
@@ -81,6 +80,32 @@ public class Spikes {
 		for (Statement stmt : infModel.getResource(PREFIX + "18").listProperties().toList()) {
 			System.out.println(stmt.getPredicate());
 			System.out.println(stmt.getObject());
+		}
+	}
+	
+	@Test
+	public void validation_spike() {
+//		Model schema = FileManager.get().loadModel("file:transport_schema.rdf");
+//		Model data = FileManager.get().loadModel("file:transport_data.rdf");
+//
+//		Reasoner reasoner = ReasonerRegistry.getOWLMiniReasoner();
+//		reasoner = reasoner.bindSchema(schema);
+//		InfModel infModel = ModelFactory.createInfModel(reasoner, data);
+		ModelLoader modelLoader = new ModelLoader("file:transport_schema.rdf",
+				"file:transport_data.rdf", "file:transport.rules");
+		InfModel infModel = modelLoader.loadModel();
+		Assert.assertTrue(infModel.validate().isValid());
+		
+		Resource resource = infModel.createResource(PREFIX + "Ubahn1");
+		Property property = infModel.createProperty(PREFIX + "hasCapacity");
+		Object value = 100.25;
+		Statement statement = infModel.createLiteralStatement(resource, property, value);
+		infModel.add(statement);
+		ValidityReport result = infModel.validate();
+		Assert.assertFalse(result.isValid());
+		for (Iterator<Report> iterator = result.getReports(); iterator.hasNext();) {
+			Report report = iterator.next();
+			System.out.println(report.getDescription());
 		}
 	}
 
