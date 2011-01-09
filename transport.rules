@@ -1,8 +1,26 @@
 @prefix rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
 @prefix ut: http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#
 
-[cheapTicket: (?T rdf:type ut:CheapTicket)
+[cheapTickets: (?T rdf:type ut:CheapTicket)
               <-
               (?T rdf:type ut:Ticket)
               (?T ut:hasPrize ?P)
               lessThan(?P,20)]
+              
+[expensiveTickets: (?T rdf:type ut:CheapTicket)
+              <-
+              (?T rdf:type ut:Ticket)
+              (?T ut:hasPrize ?P)
+              greaterThan(?P,20)]
+
+[smallVehicles: (?T rdf:type ut:SmallVehicle)
+              <-
+              (?T rdf:type ut:Vehicle)
+              (?T ut:hasCapacity ?P)
+              lessThan(?P,200)]
+              
+[bigVehicles: (?T rdf:type ut:BigVehicle)
+              <-
+              (?T rdf:type ut:Vehicle)
+              (?T ut:hasCapacity ?P)
+              greaterThan(?P,200)]
