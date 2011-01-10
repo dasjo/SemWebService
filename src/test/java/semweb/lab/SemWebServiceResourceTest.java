@@ -22,6 +22,8 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import junit.framework.Assert;
+
 import org.apache.cxf.helpers.MapNamespaceContext;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.client.WebClient;
@@ -285,7 +287,7 @@ public class SemWebServiceResourceTest {
 				+ "WHERE { ?x a ut:Driver }";
 		Response response = createWebClient(queryString).get();
 
-		assertThat(response.getStatus(), is(200));
+		assertThat("Search must succeed", response.getStatus(), is(200));
 		NodeList nodes = selectNodesFromSparqlResult(response,
 				"/sparql/results/result/binding[@name='x']/uri");
 		assertThat("Invalid number of matches in SPARQL query", nodes
@@ -319,7 +321,7 @@ public class SemWebServiceResourceTest {
 				+ "WHERE { ?x a ut:Person }";
 		response = createWebClient(queryString).get();
 
-		assertThat(response.getStatus(), is(200));
+		assertThat("Search must succeed", response.getStatus(), is(200));
 		NodeList nodes = selectNodesFromSparqlResult(response,
 				"/sparql/results/result/binding[@name='x']/uri");
 		assertThat("Invalid number of matches in SPARQL query", nodes
@@ -329,6 +331,60 @@ public class SemWebServiceResourceTest {
 				nodes.item(0).getTextContent(),
 				is("http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#MatthiasRauch"));
 	}
+	
+	 
+  @Test
+  public void queryDataPropertyLineIntervals() throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {    
+    String queryString = ""
+        + "PREFIX transport:<" + PREFIX + "> "
+        + "SELECT ?line ?interval "
+        + "WHERE { ?line transport:hasInterval ?interval }";
+    
+    Response response = createWebClient(queryString).get();
+    
+    assertThat("Search must succeed", response.getStatus(), is(200));
+    NodeList nodes = selectNodesFromSparqlResult(response,
+        "/sparql/results/result/binding[@name='line']/uri");
+    assertThat("Invalid number of matches in SPARQL query", nodes
+        .getLength(), is(3));
+    
+    assertThat(
+        "Unexpected result in SPARQL query",
+        nodes.item(0).getTextContent(),
+        is("http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#U3"));
+    assertThat(
+        "Unexpected result in SPARQL query",
+        nodes.item(1).getTextContent(),
+        is("http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#84A"));
+    assertThat(
+        "Unexpected result in SPARQL query",
+        nodes.item(2).getTextContent(),
+        is("http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#71"));
+  }
+  
+  @Test
+  public void queryObjectPropertyLineIntervals() throws XPathExpressionException, ParserConfigurationException, SAXException, IOException {    
+    String queryString = ""
+        + "PREFIX transport:<" + PREFIX + "> "
+        + "SELECT ?driver ?vehicle "
+        + "WHERE { ?driver transport:isDriverOf ?vehicle }";
+    
+    Response response = createWebClient(queryString).get();
+    
+    assertThat("Search must succeed", response.getStatus(), is(200));
+    
+    NodeList nodes = selectNodesFromSparqlResult(response,
+        "/sparql/results/result/binding[@name='driver']/uri");
+    assertThat("Invalid number of matches in SPARQL query", nodes
+        .getLength(), is(3));
+    
+    assertThat("Unexpected result in SPARQL query", nodes.item(0).getTextContent(), is(PREFIX + "NikkiLauda"));
+    assertThat("Unexpected result in SPARQL query", nodes.item(1).getTextContent(), is(PREFIX + "JochenRindt"));
+    assertThat("Unexpected result in SPARQL query", nodes.item(2).getTextContent(), is(PREFIX + "GerhardBerger"));
+  }
+	
+	
+	/* ### HELPER METHODS ### */
 	
 	private void checkNodeExisting(String reason, String uri, boolean existing) {
 		Node node = Node.createURI(uri);
