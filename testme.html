@@ -1,0 +1,73 @@
+<html>                                                               
+ <head>                                                                  
+ <title>SemWeb Demo</title>                                                          
+ </head> 
+
+<body>
+
+<div style="float:right">
+  Team:<br>
+	Matthias Rauch 0626140 534<br>
+	Josef Dabernig 0927232 937
+</div>
+
+<h1>SemWeb Demo</h1>
+Server at localhost:1234 needs to be running (<a href="src/main/java/semweb/lab/Server.java">src/main/java/semweb/lab/Server.java</a>)<br>
+Also note the Unit tests at (<a href="src/test/java/semweb/lab/SemWebServiceResourceTest.java">src/test/java/semweb/lab/SemWebServiceResourceTest.java</a>)
+<br></br>
+<form 
+name="insert" 
+action="http://localhost:1234/insert" method="get" target="result"
+style="width: 66%; float: left">  
+  <fieldset>  
+  <legend>Insert</legend>
+  
+    <label for="subject" id="subject_label">subject</label>  
+    <input type="text" name="subject" id="subject" size="80" value="http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#Ubahn1" class="text-input" />  
+  
+    <br />  
+    <label for="predicate" id="predicate_label">predicate</label>  
+    <input type="text" name="predicate" id="predicate" size="80" value="http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#hasCapacity" class="text-input" />  
+  
+    <br />   
+    <input type="radio" name="isLiteral" value="true" checked="checked" /> Literal
+    <input type="radio" name="isLiteral" value="false" /> Object
+    
+    <br /> 
+    <input type="radio" name="objectType" value="Integer" checked="checked" /> Integer
+    <input type="radio" name="objectType" value="Float" /> Float
+    <input type="radio" name="objectType" value="String" /> String
+    
+    <br />  
+    <label for="object" id="object_label">object</label>  
+    <input type="text" name="object" id="object" size="80" value="500" class="text-input" />  
+  
+    <br />  
+    <input type="submit" name="submit" class="button" id="submit_insert" value="Insert Triple" />  
+      </fieldset>
+</form>  
+
+
+<form name="query" 
+action="http://localhost:1234/query" style="width: 33%" target="result">  
+  <fieldset>      
+  <legend>Query</legend>
+    <textarea rows="8" cols="50" name="qry" id="qry" class="text-input">
+PREFIX transport:&lt;http://www.semanticweb.org/ontologies/2010/10/UrbanTransport.owl#&gt; 
+SELECT ?driver ?vehicle
+WHERE { ?driver transport:isDriverOf ?vehicle }
+    </textarea>
+  
+    <br />  
+    <input type="submit" name="submit" class="button" id="submit_query" value="Query" />  
+  </fieldset>  
+</form>  
+
+  <fieldset style="clear: both">      
+  <legend>Result</legend>
+<iframe id="result" name="result" style="width: 100%; height: 300px; clear: both;">do it</iframe>
+</fieldset>
+
+</body>
+
+</html>
