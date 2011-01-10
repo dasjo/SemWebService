@@ -1,5 +1,6 @@
 package semweb.lab;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -35,7 +36,7 @@ import com.hp.hpl.jena.reasoner.ValidityReport.Report;
 import com.hp.hpl.jena.reasoner.rulesys.GenericRuleReasoner;
 import com.hp.hpl.jena.reasoner.rulesys.Rule;
 
-@Path("/sparql")
+@Path("/")
 public class SemWebServiceResource implements SemWebService {
 
 	private static Log logger = LogFactory.getLog(SemWebServiceResource.class);
@@ -62,6 +63,7 @@ public class SemWebServiceResource implements SemWebService {
 
 	@Override
 	@POST
+	@Path("insert")
 	public Response insert(Triple triple) {
 		Resource resource = this.infModel.createResource(triple.getSubject());
 		Property property = this.infModel.createProperty(triple.getPredicate());
@@ -80,22 +82,55 @@ public class SemWebServiceResource implements SemWebService {
 		if (!validityReport.isValid()) {
 			StringBuffer message = new StringBuffer(
 					"Validation of model failed due to following errors:\n");
-			while (validityReport.getReports().hasNext()) {
-				Report report = validityReport.getReports().next();
+			Iterator<Report> a = validityReport.getReports();
+			while (a.hasNext()) {
+				Report report = a.next();
 				message.append(" * ");
 				message.append(report.getDescription());
 				message.append("\n");
 			}
+			infModel.remove(statement);
 			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(
 					message.toString()).build();
 		}
 
-		return Response.ok().build();
+		return Response.ok("inserted").build();
 	}
+	
+	 @Override
+	  @GET
+	  @Path("insert")
+	  public Response insertGet(
+	      @QueryParam("subject") String subject, 
+	      @QueryParam("predicate") String predicate, 
+	      @QueryParam("object") String object, 
+        @QueryParam("objectType") String objectType, 
+	      @QueryParam("isLiteral") Boolean isLiteral) throws ClassNotFoundException {
+	   Triple triple = new Triple();
+	   triple.setSubject(subject);
+	   triple.setPredicate(predicate);
+	   
+	   Object myObject;
+	   if(objectType.equals("Integer")) {
+	     myObject = Integer.parseInt(object);
+	   } 
+	   else if(objectType.equals("Float")) {
+       myObject = Float.parseFloat(object);
+	   }
+	   else {
+	     myObject = object;
+	   }
+	   
+	   triple.setObject(myObject);
+	   triple.setLiteral(isLiteral);
+	   return insert(triple);
+	 }
 
 	@Override
 	@GET
+  @Path("query")
 	public Response query(@QueryParam("qry") String sparqlQuery) {
+	  //sparqlQuery = sparqlQuery.replace('\n', ' ');
 		Query query = QueryFactory.create(sparqlQuery);
 		QueryExecution qe = QueryExecutionFactory.create(query, infModel);
 		ResultSet results = qe.execSelect();

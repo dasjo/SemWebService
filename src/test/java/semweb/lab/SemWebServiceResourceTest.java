@@ -68,13 +68,13 @@ public class SemWebServiceResourceTest {
 		sf.create();
 	}
 
-	private static WebClient createWebClient() {
-		return WebClient.create(SERVICE_URL + "/sparql");
+	private static WebClient createWebClientInsert() {
+		return WebClient.create(SERVICE_URL + "/insert");
 	}
 
-	private static WebClient createWebClient(String query)
+	private static WebClient createWebClientQuery(String query)
 			throws UnsupportedEncodingException {
-		UriBuilder builder = UriBuilder.fromUri(SERVICE_URL + "/sparql");
+		UriBuilder builder = UriBuilder.fromUri(SERVICE_URL + "/query");
 		builder = builder.queryParam("qry", "{query}");
 		return WebClient.create(builder.build(query));
 	}
@@ -89,7 +89,7 @@ public class SemWebServiceResourceTest {
 
 		checkNodeExisting("Subject must exist before: "
 				+ triple.getSubject(), triple.getSubject(), true);
-		Response response = createWebClient().post(triple);
+		Response response = createWebClientInsert().post(triple);
 
 		assertThat("Inserting existing subject is expected to succeed",
 				response.getStatus(), is(200));
@@ -114,7 +114,7 @@ public class SemWebServiceResourceTest {
 
 		checkNodeExisting("Subject must not exist before: "
 				+ triple.getSubject(), triple.getSubject(), false);
-		Response response = createWebClient().post(triple);
+		Response response = createWebClientInsert().post(triple);
 
 		assertThat("Inserting non-existing subject is expected to succeed",
 				response.getStatus(), is(200));
@@ -140,7 +140,7 @@ public class SemWebServiceResourceTest {
 		checkNodeExisting("Object must exist before: "
 				+ triple.getObject().toString(), (String) triple.getObject(),
 				true);
-		Response response = createWebClient().post(triple);
+		Response response = createWebClientInsert().post(triple);
 
 		assertThat(
 				"Inserting existing subject with existing object is expected to succeed",
@@ -167,7 +167,7 @@ public class SemWebServiceResourceTest {
 		checkNodeExisting("Object must not exist before: "
 				+ triple.getObject().toString(), (String) triple.getObject(),
 				false);
-		Response response = createWebClient().post(triple);
+		Response response = createWebClientInsert().post(triple);
 
 		assertThat(
 				"Inserting existing subject with non-existing object is expected to succeed",
@@ -194,7 +194,7 @@ public class SemWebServiceResourceTest {
 		checkNodeExisting("Object must not exist before: "
 				+ triple.getObject().toString(), (String) triple.getObject(),
 				true);
-		Response response = createWebClient().post(triple);
+		Response response = createWebClientInsert().post(triple);
 
 		assertThat(
 				"Inserting non-existing subject with non-existing object is expected to succeed",
@@ -221,7 +221,7 @@ public class SemWebServiceResourceTest {
 		checkNodeExisting("Object must exist before: "
 				+ triple.getObject().toString(), (String) triple.getObject(),
 				true);
-		Response response = createWebClient().post(triple);
+		Response response = createWebClientInsert().post(triple);
 
 		assertThat(
 				"Inserting non-existing subject with existing object is expected to succeed",
@@ -241,14 +241,14 @@ public class SemWebServiceResourceTest {
 		triple.subject = PREFIX + "TicketABC";
 		triple.predicate = RDF.type.getURI();
 		triple.object = PREFIX + "Ticket";
-		Response response = createWebClient().post(triple);
+		Response response = createWebClientInsert().post(triple);
 		assertThat("Inserting subject with object is expected to succeed",
 				response.getStatus(), is(200));
 
 		triple.predicate = PREFIX + "hasPrize";
 		triple.object = 10;
 		triple.isLiteral = true;
-		response = createWebClient().post(triple);
+		response = createWebClientInsert().post(triple);
 		assertThat("Inserting subject with object is expected to succeed",
 				response.getStatus(), is(200));
 		Resource resource = semWebServiceResource.getInfModel().getResource(
@@ -273,7 +273,7 @@ public class SemWebServiceResourceTest {
 		assertThat("Subject must exist in model", semWebServiceResource
 				.getInfModel().containsResource(rdfNode), is(true));
 
-		Response response = createWebClient().post(triple);
+		Response response = createWebClientInsert().post(triple);
 
 		assertThat("Updating subject must fail due to validation", response
 				.getStatus(), is(500));
@@ -285,7 +285,7 @@ public class SemWebServiceResourceTest {
 			XPathExpressionException {
 		String queryString = "" + "PREFIX ut:<" + PREFIX + "> " + "SELECT ?x "
 				+ "WHERE { ?x a ut:Driver }";
-		Response response = createWebClient(queryString).get();
+		Response response = createWebClientQuery(queryString).get();
 
 		assertThat("Search must succeed", response.getStatus(), is(200));
 		NodeList nodes = selectNodesFromSparqlResult(response,
@@ -315,11 +315,11 @@ public class SemWebServiceResourceTest {
 		triple.predicate = RDF.type.getURI();
 		triple.object = PREFIX + "Person";
 
-		Response response = createWebClient().post(triple);
+		Response response = createWebClientInsert().post(triple);
 
 		String queryString = "" + "PREFIX ut:<" + PREFIX + "> " + "SELECT ?x "
 				+ "WHERE { ?x a ut:Person }";
-		response = createWebClient(queryString).get();
+		response = createWebClientQuery(queryString).get();
 
 		assertThat("Search must succeed", response.getStatus(), is(200));
 		NodeList nodes = selectNodesFromSparqlResult(response,
@@ -340,7 +340,7 @@ public class SemWebServiceResourceTest {
         + "SELECT ?line ?interval "
         + "WHERE { ?line transport:hasInterval ?interval }";
     
-    Response response = createWebClient(queryString).get();
+    Response response = createWebClientQuery(queryString).get();
     
     assertThat("Search must succeed", response.getStatus(), is(200));
     NodeList nodes = selectNodesFromSparqlResult(response,
@@ -369,7 +369,7 @@ public class SemWebServiceResourceTest {
         + "SELECT ?driver ?vehicle "
         + "WHERE { ?driver transport:isDriverOf ?vehicle }";
     
-    Response response = createWebClient(queryString).get();
+    Response response = createWebClientQuery(queryString).get();
     
     assertThat("Search must succeed", response.getStatus(), is(200));
     
